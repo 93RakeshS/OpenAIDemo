@@ -18,8 +18,8 @@ namespace OpenAIDemoAPI.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("ReturnAResponseBasedOnInput")]
-        public async Task<IActionResult> ReturnAResponseBasedOnInput(string input)
+        [HttpGet("ReadfromExternalInput")]
+        public async Task<IActionResult> ReadfromExternalInput(string input)
         {
             string externalData = "menu: Pizza Margherita, Pizza Pepperoni, Garlic Bread, Caesar Salad\nuser name: John Doe\naddress: 123 Main St.";
 
@@ -58,7 +58,7 @@ namespace OpenAIDemoAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReadfromExternalInput(string input)
+        public async Task<IActionResult> ReturnAResponseBasedOnInput(string input)
         {
             var gpt3 = new OpenAIService(new OpenAiOptions()
             {
