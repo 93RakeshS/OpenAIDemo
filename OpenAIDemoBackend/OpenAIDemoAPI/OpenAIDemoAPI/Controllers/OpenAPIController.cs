@@ -8,7 +8,7 @@ namespace OpenAIDemoAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class OpenAPIController : ControllerBase
+    public class OpenAPIController 
     {
         private readonly ILogger<OpenAPIController> _logger;
         private readonly IConfiguration _configuration;
@@ -18,10 +18,19 @@ namespace OpenAIDemoAPI.Controllers
             _configuration = configuration;
         }
 
+        [NonAction]
+        public string ReadfromText()
+        {
+            string filePath = "Documents/input.txt";
+            string inputText = File.ReadAllText(filePath);
+            return inputText;
+        }
+
         [HttpGet("ReadfromExternalInput")]
         public async Task<IActionResult> ReadfromExternalInput(string input)
         {
-            string externalData = "menu: Pizza Margherita, Pizza Pepperoni, Garlic Bread, Caesar Salad\nuser name: John Doe\naddress: 123 Main St.";
+            //string externalData = "menu: Pizza Margherita, Pizza Pepperoni, Garlic Bread, Caesar Salad\nuser name: John Doe\naddress: 123 Main St.";
+            string externalData = ReadfromText();
 
             var gpt3 = new OpenAIService(new OpenAiOptions()
             {
@@ -54,7 +63,7 @@ namespace OpenAIDemoAPI.Controllers
                 result.Add($"Error {completionResult.Error}");
                 Console.WriteLine($"{completionResult.Error.Code}: {completionResult.Error.Message}");
             }
-            return Ok(result);
+            return new OkObjectResult(result);
         }
 
         [HttpGet]
@@ -90,7 +99,7 @@ namespace OpenAIDemoAPI.Controllers
                 result.Add($"Error {completionResult.Error}");
                 Console.WriteLine($"{completionResult.Error.Code}: {completionResult.Error.Message}");
             }
-            return Ok(result);
+            return new OkObjectResult(result);
 
 
         }
