@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    // Layout = null;
+}
+
+<div>
+    <div>
+        <label>System</label>
+        </div>
+        <div>
+        <textarea id="sytemMessage" rows="10" cols="100"></textarea>
+       
+    </div>
+    <div> 
+        <label>User</label>
+        </div>
+        <div>
+        <textarea id="promptValue" rows="2" cols="100"></textarea>
+    </div>
+    
+    <button id="generateResponse" value="Generate">Generate</button>
+</div>
+<div id="responseDiv"></div>
+@section scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#responseDiv").hide();
+            $("#generateResponse").click(function(){
+                    $.ajax({
+                    url: "/Home/GetResponse/",
+                    type: "GET",
+                    data: { systemMessage: $("#sytemMessage").val(), userInput: $("#promptValue").val() },
+                        dataType: "json",
+                        success: function (data) {
+                        $("#responseDiv").show();
+                        $("#responseDiv").text(data);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+            })
+
+        });
+    </script>
+}
