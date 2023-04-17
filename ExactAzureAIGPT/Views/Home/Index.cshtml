@@ -6,23 +6,23 @@
 <div>
     <div>
         <label>System</label>
-        </div>
-        <div>
-        <textarea id="sytemMessage" rows="7" cols="100"></textarea>
-        </div>
-        <label>Field Info</label>
-        </div>
-        <div>
-            <textarea id="txtfieldInfo" rows="2" cols="100"></textarea>
-        </div>
-    <div> 
-        <label>User</label>
-        </div>
-        <div>
-        <textarea id="promptValue" rows="2" cols="100"></textarea>
     </div>
-    
-    <button id="generateResponse" value="Generate">Generate</button>
+    <div>
+        <textarea id="sytemMessage" rows="7" cols="100"></textarea>
+    </div>
+    <label>Field Info</label>
+</div>
+<div>
+    <textarea id="txtfieldInfo" rows="2" cols="100"></textarea>
+</div>
+<div>
+    <label>User</label>
+</div>
+<div>
+    <textarea id="promptValue" rows="2" cols="100"></textarea>
+</div>
+
+<button id="generateResponse" value="Generate">Generate</button>
 
 
 <div id="responseDiv"></div>
@@ -35,46 +35,54 @@
 @section scripts{
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
+
+       
+        $(document).ready(function () {
             var historyMessage;
             $("#responseDiv").hide();
-            $("#generateResponse").click(function(){
-                if($("#txtHistory").val()=="")
-                {
-                    var message=$("#sytemMessage").val()+"\n Here are the mappings:"+ $("#txtfieldInfo").val();
+            $("#generateResponse").click(function () {
+
+                
+                if ($("#txtHistory").val() == "") {
+                    var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
                     $.ajax({
-                    url: "/Home/GetResponse/",
-                    type: "GET",
-                        data: { userInput: $("#promptValue").val(), systemMessage: message },
+                        url: "/Home/GetResponse/",
+                        type: "GET",
+                        data: { userInput: $("#promptValue").val(), systemMessage: message},
                         dataType: "json",
                         success: function (data) {
-                        $("#responseDiv").show();
-                        $("#responseDiv").text(data);
-                        if ($("#txtHistory").val()=="")
-                        {
-                             historyMessage ="U:"+ $("#promptValue").val()+"\nA:"+data;
-                        }
-                        else
-                        {
-                            historyMessage =$("#txtHistory").val()+"\nU:"+ $("#promptValue").val()+"\nA:"+data;
-                        }
-                        $("#txtHistory").val(historyMessage);
+                            $("#responseDiv").show();
+                            $("#responseDiv").text(data);
+                            if ($("#txtHistory").val() == "") {
+                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
+                            }
+                            else {
+                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                            }
+                            $("#txtHistory").val(historyMessage);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
                         }
                     });
                 }
-                else{
-
+                else {
+                    
                     $.ajax({
                         url: "/Home/GetResponse/",
                         type: "GET",
-                        data: { userInput: $("#promptValue").val(), history: $("#txtHistory").val() },
+                        data: { userInput: $("#promptValue").val(), systemMessage: message , history : $("#txtHistory").val() },
                         dataType: "json",
                         success: function (data) {
                             $("#responseDiv").show();
                             $("#responseDiv").text(data);
+                            if ($("#txtHistory").val() == "") {
+                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
+                            }
+                            else {
+                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                            }
+                            $("#txtHistory").val(historyMessage);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
@@ -82,7 +90,7 @@
                     });
                 }
             })
-            
+
 
         });
     </script>

@@ -33,8 +33,9 @@ namespace ExactAzureAIGPT.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpGet]
-        public JsonResult GetResponse( string userInput, string systemMessage = "",string history="")
+        public JsonResult GetResponse( string userInput, string systemMessage = "", string history="")
         {
+                        
             OpenAIClient client = new OpenAIClient(
             new Uri("https://eolai.openai.azure.com/"),
             new AzureKeyCredential("4e248eeb1cd9440e8933201836a72bbd"));
@@ -54,10 +55,20 @@ namespace ExactAzureAIGPT.Controllers
             //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
             //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
             readFile.WriteContentofFile("\nUser :" + "\n" + userInput);
-
-            input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage
-           ));
-
+            if (history == "")
+            {
+                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+            }
+            else
+            {
+                var historyList = SaveChatHistory(history);
+                foreach(var historyItem in historyList)
+                {
+                    input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
+                    input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
+                }
+                
+            }
            // input.Messages.Add(new ChatMessage(ChatRole.User, $"Here is the latest conversation : {readFileContentConvo}"));
 
             input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
@@ -79,6 +90,21 @@ namespace ExactAzureAIGPT.Controllers
             return Json(content);
 
         }
-        
+
+        private List<ChatHistory> SaveChatHistory(string chatHistoryText)
+        {
+            List<ChatHistory> chatHistory = new List<ChatHistory>();
+            string[] chatHistoryLines = chatHistoryText.Trim().Split('\n');
+
+            for (int i = 0; i < chatHistoryLines.Length; i += 2)
+            {
+                string userMessage = chatHistoryLines[i].Replace("U: ", "").Trim();
+                string assistantMessage = chatHistoryLines[i + 1].Replace("A: ", "").Trim();
+
+                chatHistory.Add(new ChatHistory { User = userMessage, Assistant = assistantMessage });
+            }
+
+            return chatHistory;
+        }
     }
 }
