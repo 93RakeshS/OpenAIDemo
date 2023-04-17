@@ -91,8 +91,8 @@ namespace ExactOpenAIDemo.Controllers
             // Deserialize the JSON data into a C# object
             try
             {
-                dynamic jsonData = JsonConvert.DeserializeObject(jsonText);
-                query = Convert.ToString(jsonData)+"\n"+input;
+                //dynamic jsonData = JsonConvert.DeserializeObject(jsonText);
+                query = Convert.ToString(jsonText)+"\n"+input;
                 //if (input.Contains("Age".Trim()) || input.Contains("age".Trim()))
                 //{
                 //    query = $"What is {jsonData.Age}?";
@@ -117,19 +117,22 @@ namespace ExactOpenAIDemo.Controllers
                 Console.WriteLine(ex.Message );
             }
             // Generate a response for the query using OpenAI's GPT model
-            var completionResult = await gpt3.Completions.CreateCompletion(new CompletionCreateRequest()
+            var inputOptions = new CompletionCreateRequest()
             {
                 Prompt = query,
                 Model = Models.TextDavinciV3,
                 Temperature = 0.5F,
                 MaxTokens = 1024,
-            });
-            
+            };
+  
+            var completionResult = await gpt3.Completions.CreateCompletion(inputOptions);
+                        
             if (completionResult.Successful)
             {
                 foreach (var choice in completionResult.Choices)
                 {
                     Console.WriteLine(choice.Text);
+                    readFile.WriteContentOfTheFile(choice.Text);
                     result.Add(choice.Text);
                 }
             }
