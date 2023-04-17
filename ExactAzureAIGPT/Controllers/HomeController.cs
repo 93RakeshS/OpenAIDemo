@@ -33,7 +33,7 @@ namespace ExactAzureAIGPT.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpGet]
-        public JsonResult GetResponse(string systemMessage, string userInput)
+        public JsonResult GetResponse( string userInput, string systemMessage = "",string history="")
         {
             OpenAIClient client = new OpenAIClient(
             new Uri("https://eolai.openai.azure.com/"),
@@ -51,14 +51,14 @@ namespace ExactAzureAIGPT.Controllers
 
             var regex = new Regex(@"if.+\((.+)\).+\{.+\}");
             ReadFile readFile = new ReadFile();
-            var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
-            var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
-            readFile.WriteContentofFile("\nUser :"+"\n"+userInput);
-            
-            input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage +
-            $"Here are the mappings: {readFileContents}"));
-            
-            input.Messages.Add(new ChatMessage(ChatRole.User, $"Here is the latest conversation : {readFileContentConvo}"));
+            //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
+            //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
+            readFile.WriteContentofFile("\nUser :" + "\n" + userInput);
+
+            input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage
+           ));
+
+           // input.Messages.Add(new ChatMessage(ChatRole.User, $"Here is the latest conversation : {readFileContentConvo}"));
 
             input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
 
@@ -74,9 +74,11 @@ namespace ExactAzureAIGPT.Controllers
             var match = regex.Match(content);
 
             //Console.WriteLine(match.Captures[0].Value);
-            readFile.WriteContentofFile("\nGPT :"+"\n"+content);
+            readFile.WriteContentofFile("\nGPT :" + "\n" + content);
             input.Messages.Add(responseMessage);
             return Json(content);
+
         }
+        
     }
 }
