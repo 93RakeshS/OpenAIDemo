@@ -113,11 +113,11 @@ textarea
     margin: 2px;
 }
 .assistantMessageDiv {
-    background-color: grey;
-    color: white;
+    background-color: #c2f0c2;
+    color: black;
     border-radius: 6px;
     padding: 4px;
-    margin: 2px;
+    margin: 2px;    
 }
 
 .heading {
