@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ExactAzureAIGPT.Controllers
 {
@@ -16,22 +17,34 @@ namespace ExactAzureAIGPT.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (Request.Cookies["secret"] != "test@ExactGPT007")
+            {
+                throw new UnauthorizedAccessException("Unauthorised");
+            }
+              base.OnActionExecuting(context);
+        }
+        [HttpGet]
+        public IActionResult Error()
         {
             return View();
+        }
+        public IActionResult Index()
+        {
+                return View();
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            return View(); 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //}
         [HttpPost]
         public JsonResult GetResponse( string userInput, string systemMessage = "", string history="")
         {
