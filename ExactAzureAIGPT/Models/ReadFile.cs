@@ -7,9 +7,12 @@
           return  File.ReadAllText("C:\\JsonFile\\"+fileName);
         }
 
-        public void WriteContentofFile(string content) 
+        public void WriteContentsToFile(string content) 
         {
-            var filePath = "C:\\JsonFile\\Conversation.txt";
+            string chatHisoryFolder = "chatHistory";
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+            string chatHistory = $"chatHistory_{today}.txt";
+            string filePath = Path.Combine(chatHisoryFolder, chatHistory);
             File.AppendAllText(filePath, content);
         }
     }

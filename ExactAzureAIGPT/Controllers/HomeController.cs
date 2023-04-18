@@ -54,7 +54,7 @@ namespace ExactAzureAIGPT.Controllers
             ReadFile readFile = new ReadFile();
             //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
             //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
-            readFile.WriteContentofFile("\nUser :" + "\n" + userInput);
+            readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
             if (history == "")
             {
                 input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
@@ -85,7 +85,7 @@ namespace ExactAzureAIGPT.Controllers
             var match = regex.Match(content);
 
             //Console.WriteLine(match.Captures[0].Value);
-            readFile.WriteContentofFile("\nGPT :" + "\n" + content);
+            readFile.WriteContentsToFile("\nGPT :" + "\n" + content);
             input.Messages.Add(responseMessage);
             return Json(content);
 
@@ -98,8 +98,8 @@ namespace ExactAzureAIGPT.Controllers
 
             for (int i = 0; i < chatHistoryLines.Length; i += 2)
             {
-                string userMessage = chatHistoryLines[i].Replace("U: ", "").Trim();
-                string assistantMessage = chatHistoryLines[i + 1].Replace("A: ", "").Trim();
+                string userMessage = chatHistoryLines[i].Replace("U:", "").Trim();
+                string assistantMessage = chatHistoryLines[i + 1].Replace("A:", "").Trim();
 
                 chatHistory.Add(new ChatHistory { User = userMessage, Assistant = assistantMessage });
             }
