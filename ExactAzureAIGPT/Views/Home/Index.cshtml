@@ -133,8 +133,8 @@
                             dataType: "json",
                             success: function(data) {
                                 $("#responseDiv").show();
-                                $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
-                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data + '</div>');
+                                $("#responseDiv").append('<div class="userMessageDiv">' + $("#promptValue").val() + '</div>');
+                                $("#responseDiv").append('<div class="assistantMessageDiv">' + data +'</div>');
                                 if ($("#txtHistory").val() == "") {
                                     historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
                                 }

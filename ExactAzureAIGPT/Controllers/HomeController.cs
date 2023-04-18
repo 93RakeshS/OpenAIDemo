@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ExactAzureAIGPT.Controllers
 {
@@ -15,6 +16,15 @@ namespace ExactAzureAIGPT.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (Request.Cookies["secret"] != "test@ExactGPT007")
+            {
+                throw new UnauthorizedAccessException("Unauthorised");
+            }
+            base.OnActionExecuting(context);
         }
 
         public IActionResult Index()

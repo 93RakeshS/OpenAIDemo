@@ -92,3 +92,28 @@ textarea
     padding: 10px;
 }
 
+#shotMessageUser {
+    align-self: flex-end;
+    padding: 5px;
+}
+
+#shotMessageAssistant {
+    align-self: flex-start;
+    padding: 5px;
+}
+
+.userMessageDiv {
+    text-align: right;
+    background-color: grey;
+    color: white; 
+    border-radius: 6px;
+    padding: 4px;
+    margin: 2px;
+}
+.assistantMessageDiv {
+    background-color: grey;
+    color: white;
+    border-radius: 6px;
+    padding: 4px;
+    margin: 2px;
+}
