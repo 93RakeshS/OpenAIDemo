@@ -33,7 +33,7 @@ namespace ExactAzureAIGPT.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpPost]
-        public JsonResult GetResponse( string userInput, string systemMessage = "", string history="")
+        public JsonResult GetResponse( string userInput = "", string systemMessage = "", string history="", string shotMessageUser = "", string shotMessageAssistant = "")
         {
             try
             {
@@ -56,13 +56,18 @@ namespace ExactAzureAIGPT.Controllers
                 //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
                 //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
                 //readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
-                if (history == "")
+                
+                shotMessageUser = (shotMessageUser == null) ? "" : shotMessageUser;
+                shotMessageAssistant = (shotMessageAssistant == null) ? "" : shotMessageAssistant;
+                
+                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+                input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
+                input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
+                if (history != "")
                 {
                     input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                }
-                else
-                {
-                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+                    input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
+                    input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
                     var historyList = SaveChatHistory(history);
                     foreach (var historyItem in historyList)
                     {
