@@ -8,9 +8,10 @@ namespace ExactAzureAIGPT.Controllers
 {
     public class HomeController : Controller
     {
-
-        public HomeController()
+        private readonly IConfiguration _configuration;
+        public HomeController(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -38,8 +39,8 @@ namespace ExactAzureAIGPT.Controllers
             try
             {
                 OpenAIClient client = new OpenAIClient(
-                new Uri("https://eolai.openai.azure.com/"),
-                new AzureKeyCredential("4e248eeb1cd9440e8933201836a72bbd"));
+                new Uri(_configuration["AzureOpenAIurl"]),
+                new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
 
                 var input = new ChatCompletionsOptions()
                 {
@@ -70,7 +71,6 @@ namespace ExactAzureAIGPT.Controllers
                         input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
                         input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
                     }
-
                 }
                 input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
 
@@ -87,7 +87,8 @@ namespace ExactAzureAIGPT.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                Console.WriteLine(ex.ToString());
+                return Json("try again");
             }
         }
 

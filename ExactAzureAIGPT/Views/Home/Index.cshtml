@@ -6,7 +6,7 @@
 
 </style>
 <div class="blockContainer container-fluid">
-    <div class="block col-md-6 shadow">
+    <div class="block col-md-5 shadow">
         @*<button class="collapsible">System</button>*@
         <div class="heading">
             System Message
@@ -31,14 +31,14 @@ Refuse to generate programs or applications.</textarea>
         </div>
 
     </div>
-    <div class="block col-md-6 shadow">
+    <div class="block col-md-7 shadow">
         <div class="row ms-2 mt-3">
             <div class="col-3">
                 <h4>Chat session</h4>
             </div>
             <div class="col-9">
                 <button type="button" id="clearResponse" class="btn btn-danger" value="Clear">Clear chat</button>
-            </div>            
+            </div>
         </div>
         <div class="message-container" id="responseDiv" rows="10" cols="65"></div>
         <div>
@@ -47,7 +47,7 @@ Refuse to generate programs or applications.</textarea>
         </div>
         <button id="generateResponse" type="button" class="btn btn-primary mt-3">Generate</button>
         <div>
-            <textarea id="txtHistory" rows="10" cols="80"></textarea>
+            <textarea id="txtHistory" hidden></textarea>
         </div>
     </div>
 </div>
@@ -85,7 +85,7 @@ Refuse to generate programs or applications.</textarea>
             const myButton = document.getElementById("generateResponse");
             myButton.disabled = true;
 
-            textArea.addEventListener("input", function () {
+            textArea.addEventListener("input", function() {
                 if (textArea.value.trim() !== "") {
                     myButton.disabled = false;
                 } else {
@@ -93,10 +93,7 @@ Refuse to generate programs or applications.</textarea>
                 }
             });
 
-            //$("#responseDiv").hide();
-            $("#txtHistory").hide();
-
-            $("#addShotMessage").click(function (){
+            $("#addShotMessage").click(function() {
                 var innerHTML = generateShotExample();
                 $(".shotMessageContainer").append(innerHTML);
             });
@@ -105,69 +102,70 @@ Refuse to generate programs or applications.</textarea>
 
                 var userShotMessages = fetchUserShotMessage();
                 var assistantShotMessage = fetchAssistantShotMessage();
-                myButton.disabled = true;                
+                myButton.disabled = true;
 
-                    var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
+                var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
 
-                    if ($("#txtHistory").val() == "") {
-                        $.ajax({
-                            url: "../Home/GetResponse/",
-                            type: "POST",
-                            data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
-                            dataType: "json",
-                            success: function(data) {
-                                //$("#responseDiv").show();
+                if ($("#txtHistory").val() == "") {
+                    $.ajax({
+                        url: "../Home/GetResponse/",
+                        type: "POST",
+                        data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
+                        dataType: "json",
+                        success: function(data) {
+                            //$("#responseDiv").show();
                             $("#responseDiv").append('<div class=" userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + $("#promptValue").val() + '</div>');
-                                $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
+                            $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
 
-                                if ($("#txtHistory").val() == "") {
-                                    historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
-                                }
-                                else {
-                                    historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
-                                }
-                                $("#txtHistory").val(historyMessage);
-                                $("#promptValue").val("");
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.log(textStatus, errorThrown);
+                            if ($("#txtHistory").val() == "") {
+                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
                             }
-                        });
-                    }
-                    else {
+                            else {
+                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                            }
+                            $("#txtHistory").val(historyMessage);
+                            $("#promptValue").val("");
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+                }
+                else {
 
-                        $.ajax({
-                            url: "../Home/GetResponse/",
-                            type: "POST",
-                            data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
-                            dataType: "json",
-                            success: function(data) {
-                                //$("#responseDiv").show();
+                    $.ajax({
+                        url: "../Home/GetResponse/",
+                        type: "POST",
+                        data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
+                        dataType: "json",
+                        success: function(data) {
+                            //$("#responseDiv").show();
                             $("#responseDiv").append('<div class="userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3"">' + $("#promptValue").val() + '</div>');
                             $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
-                                if ($("#txtHistory").val() == "") {
-                                    historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
-                                }
-                                else {
-                                    historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
-                                }
-                                $("#txtHistory").val(historyMessage);
-                                $("#promptValue").val("");
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.log(textStatus, errorThrown);
+                            if ($("#txtHistory").val() == "") {
+                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
                             }
-                        });
-                    }
-                
+                            else {
+                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                            }
+                            $("#txtHistory").val(historyMessage);
+                            $("#promptValue").val("");
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+                }
+
             })
 
             $("#clearResponse").click(function() {
+                $("#txtHistory").val("");
                 document.getElementById("responseDiv").innerHTML = "";
             })
         });
 
-        function fetchUserShotMessage(){
+        function fetchUserShotMessage() {
             const userTextareas = document.querySelectorAll('textarea.shotMessageUser');
             const userValues = [];
             userTextareas.forEach(textarea => {
@@ -176,7 +174,7 @@ Refuse to generate programs or applications.</textarea>
             return userValues;
         }
 
-        function fetchAssistantShotMessage(){
+        function fetchAssistantShotMessage() {
             const assitantTextareas = document.querySelectorAll('textarea.shotMessageAssistant');
             const assitantValues = [];
             assitantTextareas.forEach(textarea => {
@@ -184,52 +182,35 @@ Refuse to generate programs or applications.</textarea>
             });
             return assitantValues;
         }
-    
+
         function generateShotExample() {
             // create the main container
-            const mainContainer = document.createElement('div');
-            mainContainer.classList.add('mb-3');
+            const mainContainer = document.createElement("div");
+            mainContainer.classList.add("mb-3", "shot-example");
 
             // create the user input field
-            const userContainer = document.createElement('div');
-            const userLabel = document.createElement('label');
-            userLabel.setAttribute('for', 'shotMessageUser');
-            userLabel.classList.add('form-label');
-            
-            userLabel.textContent = 'User :';
-            const userTextarea = document.createElement('textarea');
-            userTextarea.setAttribute('id', 'shotMessageUser');
-            userTextarea.classList.add('form-control');
-            userTextarea.classList.add('shotMessageUser');
-            userTextarea.setAttribute('rows', '2');
-            userTextarea.setAttribute('cols', '65');
-
-            userContainer.appendChild(userLabel);
-            userContainer.appendChild(userTextarea);
+            const userContainer = `
+            <div class="form-group">
+              <label for="shotMessageUser" class="form-label">User:</label>
+              <textarea class="shotMessageUser form-control user-input" rows="2" cols="65"></textarea>
+            </div>
+          `;
 
             // create the assistant input field
-            const assistantContainer = document.createElement('div');
-            const assistantLabel = document.createElement('label');
-            assistantLabel.setAttribute('for', 'shotMessageAssistant');
-            assistantLabel.classList.add('form-label');
-            assistantLabel.textContent = 'Assistant :';
-            const assistantTextarea = document.createElement('textarea');
-            assistantTextarea.setAttribute('id', 'shotMessageAssistant');
-            assistantTextarea.classList.add('form-control');
-            assistantTextarea.classList.add('shotMessageAssistant');
-            assistantTextarea.setAttribute('rows', '2');
-            assistantTextarea.setAttribute('cols', '65');
-
-            assistantContainer.appendChild(assistantLabel);
-            assistantContainer.appendChild(assistantTextarea);
+            const assistantContainer = `
+            <div class="form-group">
+              <label for="shotMessageAssistant" class="form-label">Assistant:</label>
+              <textarea class="shotMessageAssistant form-control assistant-input" rows="2" cols="65"></textarea>
+            </div>
+          `;
 
             // append the heading and input fields to the main container
-            mainContainer.appendChild(userContainer);
-            mainContainer.appendChild(assistantContainer);
+            mainContainer.innerHTML = userContainer + assistantContainer;
 
             // return the generated HTML code as a string
             return mainContainer.outerHTML;
         }
+
 
     </script>
 }
