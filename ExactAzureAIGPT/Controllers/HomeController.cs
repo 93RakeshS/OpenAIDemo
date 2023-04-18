@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
+using ExactAzureAIGPT.Filter;
 
 namespace ExactAzureAIGPT.Controllers
 {
@@ -17,27 +19,37 @@ namespace ExactAzureAIGPT.Controllers
         {
             _logger = logger;
         }
-        public override void OnActionExecuting(ActionExecutingContext context)
+        void Authorize()
         {
             if (Request.Cookies["secret"] != "test@ExactGPT007")
             {
-                throw new UnauthorizedAccessException("Unauthorised");
+                Response.Redirect("/Home/Error");
             }
-              base.OnActionExecuting(context);
         }
+        //public override void OnActionExecuting(ActionExecutingContext context)
+        //{
+        //    if (Request.Cookies["secret"] != "test@ExactGPT007")
+        //    {
+        //        throw new UnauthorizedAccessException("Unauthorised");
+        //    }
+        //      base.OnActionExecuting(context);
+        //}
         [HttpGet]
         public IActionResult Error()
         {
             return View();
         }
+        [AuthorizedFilter]
         public IActionResult Index()
         {
-                return View();
+           // Authorize();
+            return View();
         }
 
         public IActionResult Privacy()
         {
-            return View(); 
+
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -46,7 +58,7 @@ namespace ExactAzureAIGPT.Controllers
         //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         //}
         [HttpPost]
-        public JsonResult GetResponse( string userInput, string systemMessage = "", string history="")
+        public JsonResult GetResponse(string userInput, string systemMessage = "", string history = "")
         {
             try
             {
@@ -61,7 +73,7 @@ namespace ExactAzureAIGPT.Controllers
                     NucleusSamplingFactor = (float)0.95,
                     FrequencyPenalty = 0,
                     PresencePenalty = 0,
-                    
+
                 };
 
                 var regex = new Regex(@"if.+\((.+)\).+\{.+\}");
@@ -104,7 +116,7 @@ namespace ExactAzureAIGPT.Controllers
                 input.Messages.Add(responseMessage);
                 return Json(content);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(ex.Message);
             }
@@ -125,5 +137,6 @@ namespace ExactAzureAIGPT.Controllers
 
             return chatHistory;
         }
-    }
-}
+
+    }  
+ }
