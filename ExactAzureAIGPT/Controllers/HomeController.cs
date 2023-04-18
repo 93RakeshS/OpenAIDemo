@@ -1,13 +1,8 @@
-﻿using Azure.AI.OpenAI;
-using Azure;
+﻿using Azure;
+using Azure.AI.OpenAI;
+using ExactAzureAIGPT.Filter;
 using ExactAzureAIGPT.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.Linq;
-using ExactAzureAIGPT.Filter;
 
 namespace ExactAzureAIGPT.Controllers
 {
@@ -17,7 +12,7 @@ namespace ExactAzureAIGPT.Controllers
         public HomeController()
         {
         }
-        
+
         [HttpGet]
         public IActionResult Error()
         {
@@ -26,7 +21,7 @@ namespace ExactAzureAIGPT.Controllers
         [AuthorizedFilter]
         public IActionResult Index()
         {
-          
+
             return View();
         }
 
@@ -36,9 +31,9 @@ namespace ExactAzureAIGPT.Controllers
             return View();
         }
 
-       
+
         [HttpPost]
-        public JsonResult GetResponse( string userInput = "", string systemMessage = "", string history="", List<string>? shotMessagesUser = null, List<string>? shotMessagesAssistant = null)
+        public JsonResult GetResponse(string userInput = "", string systemMessage = "", string history = "", IEnumerable<string>? shotMessagesUser = null, IEnumerable<string>? shotMessagesAssistant = null)
         {
             try
             {
@@ -56,34 +51,24 @@ namespace ExactAzureAIGPT.Controllers
 
                 };
 
-                
-                if(shotMessagesUser != null && shotMessagesAssistant != null)
+                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+
+                if (shotMessagesUser != null && shotMessagesUser.Any() && (shotMessagesAssistant != null && shotMessagesAssistant.Any()))
                 {
-                    for(var i = 0 ; i < shotMessagesUser.Count;i++) 
+                    for (var i = 0; i < shotMessagesUser.Count(); i++)
                     {
-                        input.Messages.Add(new ChatMessage(ChatRole.User, shotMessagesUser[i]));
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessagesAssistant[i]));
+                        input.Messages.Add(new ChatMessage(ChatRole.User, shotMessagesUser.ElementAt(i)));
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessagesUser.ElementAt(i)));
                     }
-                    //foreach(var shotMessageUser in shotMessagesUser) 
-                    //{
-                    //    input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
-                    //}
-                    //foreach(var shotMessageAssistant in shotMessagesAssistant)
-                    //{
-                    //    input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
-                    //}
                 }
 
-                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                
-                if (history != "")
+                if (!string.IsNullOrEmpty(history))
                 {
-                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                    var historyList = BuidlChatHistory(history);
+                    var historyList = BuildChatHistory(history);
                     foreach (var historyItem in historyList)
                     {
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
                         input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
                     }
 
                 }
@@ -106,7 +91,7 @@ namespace ExactAzureAIGPT.Controllers
             }
         }
 
-        private List<ChatHistory> BuidlChatHistory(string chatHistoryText)
+        private List<ChatHistory> BuildChatHistory(string chatHistoryText)
         {
             List<ChatHistory> chatHistory = new List<ChatHistory>();
             string[] chatHistoryLines = chatHistoryText.Trim().Split('\n');
@@ -122,5 +107,5 @@ namespace ExactAzureAIGPT.Controllers
             return chatHistory;
         }
 
-    }  
- }
+    }
+}

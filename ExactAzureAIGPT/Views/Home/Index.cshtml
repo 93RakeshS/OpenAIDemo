@@ -28,11 +28,6 @@ Refuse to generate programs or applications.</textarea>
         </div>
         <button type="button" class="btn btn-primary mt-3" id="addShotMessage">Add Shot Examples</button>
         <div class="shotMessageContainer">
-            <div class="mb-3">
-@*                <div>
-                    <button id="clearResponse" class="btn btn-danger" value="Clear">Clear</button>
-                </div>
-*@            </div>
         </div>
 
     </div>
@@ -122,8 +117,8 @@ Refuse to generate programs or applications.</textarea>
                             dataType: "json",
                             success: function(data) {
                                 //$("#responseDiv").show();
-                            $("#responseDiv").append('<div class="userMessageDiv shadow-sm">' + $("#promptValue").val() + '</div>');
-                                $("#responseDiv").append('<div class="assistantMessageDiv shadow-sm">' + data + '</div>');
+                            $("#responseDiv").append('<div class=" userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + $("#promptValue").val() + '</div>');
+                                $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
 
                                 if ($("#txtHistory").val() == "") {
                                     historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
@@ -148,8 +143,8 @@ Refuse to generate programs or applications.</textarea>
                             dataType: "json",
                             success: function(data) {
                                 //$("#responseDiv").show();
-                            $("#responseDiv").append('<div class="userMessageDiv shadow-sm">' + $("#promptValue").val() + '</div>');
-                            $("#responseDiv").append('<div class="assistantMessageDiv shadow-sm">' + data + '</div>');
+                            $("#responseDiv").append('<div class="userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3"">' + $("#promptValue").val() + '</div>');
+                            $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
                                 if ($("#txtHistory").val() == "") {
                                     historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
                                 }

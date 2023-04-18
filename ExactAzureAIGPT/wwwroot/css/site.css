@@ -132,3 +132,13 @@ textarea
     border-radius: 6px;
     overflow-y : auto;
 }
+.userMessage {
+    background-color: #F8F9FA;
+    display:inline-block;
+}
+
+.assistantMessage {
+    background-color: #0D6EFD;
+    color: white;
+    display:inline-block;
+}
