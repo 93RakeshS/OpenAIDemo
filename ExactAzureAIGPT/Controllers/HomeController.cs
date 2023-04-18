@@ -13,9 +13,10 @@ namespace ExactAzureAIGPT.Controllers
 {
     public class HomeController : Controller
     {
-
-        public HomeController()
+        private readonly IConfiguration _configuration;
+        public HomeController(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
         
         [HttpGet]
@@ -43,8 +44,8 @@ namespace ExactAzureAIGPT.Controllers
             try
             {
                 OpenAIClient client = new OpenAIClient(
-                new Uri("https://eolai.openai.azure.com/"),
-                new AzureKeyCredential("4e248eeb1cd9440e8933201836a72bbd"));
+                new Uri(_configuration["AzureOpenAIurl"]),
+                new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
 
                 var input = new ChatCompletionsOptions()
                 {
@@ -56,36 +57,25 @@ namespace ExactAzureAIGPT.Controllers
 
                 };
 
-                
-                if(shotMessagesUser != null && shotMessagesAssistant != null)
+                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+
+                if (shotMessagesUser != null && shotMessagesAssistant != null)
                 {
                     for(var i = 0 ; i < shotMessagesUser.Count;i++) 
                     {
                         input.Messages.Add(new ChatMessage(ChatRole.User, shotMessagesUser[i]));
                         input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessagesAssistant[i]));
                     }
-                    //foreach(var shotMessageUser in shotMessagesUser) 
-                    //{
-                    //    input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
-                    //}
-                    //foreach(var shotMessageAssistant in shotMessagesAssistant)
-                    //{
-                    //    input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
-                    //}
                 }
 
-                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                
                 if (history != "")
                 {
-                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
                     var historyList = BuidlChatHistory(history);
                     foreach (var historyItem in historyList)
-                    {
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
+                    {   
                         input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
                     }
-
                 }
                 input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
 
@@ -102,7 +92,8 @@ namespace ExactAzureAIGPT.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                Console.WriteLine(ex.ToString());
+                return Json("try again");
             }
         }
 
