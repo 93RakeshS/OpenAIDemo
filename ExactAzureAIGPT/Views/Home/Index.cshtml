@@ -77,60 +77,70 @@
             $("#responseDiv").hide();
             $("#txtHistory").hide();
             $("#generateResponse").click(function () {
-                var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
-
-                var shotUser = $("#shotMessageUser").val();                
-                var shotAssistant = $("#shotMessageAssistant").val();
-                
-                if ($("#txtHistory").val() == "") {
-                    $.ajax({
-                        url: "../Home/GetResponse/",
-                        type: "POST",
-                            data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
-                        dataType: "json",
-                        success: function (data) {
-                            $("#responseDiv").show();
-                            $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
-                            $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
-
-                            if ($("#txtHistory").val() == "") {
-                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
-                            }
-                            else {
-                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
-                            }
-                            $("#txtHistory").val(historyMessage);
-                            $("#promptValue").val("");
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(textStatus, errorThrown);
-                        }
-                    });
+                if($("#promptValue").val() == '')
+                {
+                    $("#responseDiv").show();
+                    $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">please provide proper input</div>');
                 }
-                else {
+                else
+                {
+                    var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
 
-                    $.ajax({
-                        url: "../Home/GetResponse/",
-                        type: "POST",
-                            data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
-                        dataType: "json",
-                        success: function (data) {
-                            $("#responseDiv").show();
-                            $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
-                            $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
-                            if ($("#txtHistory").val() == "") {
-                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
+                    var shotUser = $("#shotMessageUser").val();                
+                    var shotAssistant = $("#shotMessageAssistant").val();
+                
+                    if ($("#txtHistory").val() == "") 
+                    {
+                        $.ajax({
+                            url: "../Home/GetResponse/",
+                            type: "POST",
+                                data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
+                            dataType: "json",
+                            success: function (data) {
+                                $("#responseDiv").show();
+                                $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
+                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
+
+                                if ($("#txtHistory").val() == "") {
+                                    historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
+                                }
+                                else {
+                                    historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                                }
+                                $("#txtHistory").val(historyMessage);
+                                $("#promptValue").val("");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus, errorThrown);
                             }
-                            else {
-                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                        });
+                    }
+                    else
+                    {
+
+                        $.ajax({
+                            url: "../Home/GetResponse/",
+                            type: "POST",
+                                data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
+                            dataType: "json",
+                            success: function (data) {
+                                $("#responseDiv").show();
+                                $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
+                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
+                                if ($("#txtHistory").val() == "") {
+                                    historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
+                                }
+                                else {
+                                    historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+                                }
+                                $("#txtHistory").val(historyMessage);
+                                $("#promptValue").val("");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus, errorThrown);
                             }
-                            $("#txtHistory").val(historyMessage);
-                            $("#promptValue").val("");
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(textStatus, errorThrown);
-                        }
-                    });
+                        });
+                    }
                 }
             })
 
