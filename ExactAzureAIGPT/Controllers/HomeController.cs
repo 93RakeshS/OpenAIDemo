@@ -48,7 +48,7 @@ namespace ExactAzureAIGPT.Controllers
                     NucleusSamplingFactor = (float)0.95,
                     FrequencyPenalty = 0,
                     PresencePenalty = 0,
-
+                    
                 };
 
                 var regex = new Regex(@"if.+\((.+)\).+\{.+\}");
