@@ -11,22 +11,11 @@ namespace ExactAzureAIGPT.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            if (Request.Cookies["secret"] != "test@ExactGPT007")
-            {
-                throw new UnauthorizedAccessException("Unauthorised");
-                //}
-            }
-            base.OnActionExecuting(context);
-        }
 
         public IActionResult Index()
         {
@@ -62,11 +51,6 @@ namespace ExactAzureAIGPT.Controllers
 
                 };
 
-                var regex = new Regex(@"if.+\((.+)\).+\{.+\}");
-                ReadFile readFile = new ReadFile();
-                //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
-                //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
-                //readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
                 
                 shotMessageUser = (shotMessageUser == null) ? "" : shotMessageUser;
                 shotMessageAssistant = (shotMessageAssistant == null) ? "" : shotMessageAssistant;
@@ -79,7 +63,7 @@ namespace ExactAzureAIGPT.Controllers
                     input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
                     input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
                     input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
-                    var historyList = SaveChatHistory(history);
+                    var historyList = BuidlChatHistory(history);
                     foreach (var historyItem in historyList)
                     {
                         input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
@@ -87,11 +71,8 @@ namespace ExactAzureAIGPT.Controllers
                     }
 
                 }
-                // input.Messages.Add(new ChatMessage(ChatRole.User, $"Here is the latest conversation : {readFileContentConvo}"));
-
                 input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
 
-                // ### If streaming is not selected
                 Response<ChatCompletions> responseWithoutStream = client.GetChatCompletionsAsync(
                     "EOLgpt35", input
                     ).Result;
@@ -100,10 +81,6 @@ namespace ExactAzureAIGPT.Controllers
 
                 var content = responseMessage.Content;
 
-                var match = regex.Match(content);
-
-                //Console.WriteLine(match.Captures[0].Value);
-                //readFile.WriteContentsToFile("\nGPT :" + "\n" + content);
                 input.Messages.Add(responseMessage);
                 return Json(content);
             }
@@ -113,7 +90,7 @@ namespace ExactAzureAIGPT.Controllers
             }
         }
 
-        private List<ChatHistory> SaveChatHistory(string chatHistoryText)
+        private List<ChatHistory> BuidlChatHistory(string chatHistoryText)
         {
             List<ChatHistory> chatHistory = new List<ChatHistory>();
             string[] chatHistoryLines = chatHistoryText.Trim().Split('\n');
