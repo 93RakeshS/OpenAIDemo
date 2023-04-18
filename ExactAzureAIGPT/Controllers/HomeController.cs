@@ -32,7 +32,7 @@ namespace ExactAzureAIGPT.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        [HttpGet]
+        [HttpPost]
         public JsonResult GetResponse( string userInput, string systemMessage = "", string history="")
         {
             try
@@ -55,13 +55,14 @@ namespace ExactAzureAIGPT.Controllers
                 ReadFile readFile = new ReadFile();
                 //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
                 //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
-                readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
+                //readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
                 if (history == "")
                 {
                     input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
                 }
                 else
                 {
+                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
                     var historyList = SaveChatHistory(history);
                     foreach (var historyItem in historyList)
                     {
@@ -86,7 +87,7 @@ namespace ExactAzureAIGPT.Controllers
                 var match = regex.Match(content);
 
                 //Console.WriteLine(match.Captures[0].Value);
-                readFile.WriteContentsToFile("\nGPT :" + "\n" + content);
+                //readFile.WriteContentsToFile("\nGPT :" + "\n" + content);
                 input.Messages.Add(responseMessage);
                 return Json(content);
             }

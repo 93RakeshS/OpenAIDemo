@@ -8,12 +8,18 @@
         <label>System</label>
     </div>
     <div>
-        <textarea id="sytemMessage" rows="7" cols="100"></textarea>
+        <textarea id="sytemMessage" rows="7" cols="100">You are helping users of an accounting system to write validation rules for sales orders. The validation rules are Excel like formulas but you do not need to use an = sign at the start and you do not need to start with IF. The expression will be evaluated to TRUE or FALSE by the accounting system.
+The following enumerations are all comma separated lists ended by period. In case a member contains a comma, the entire value will be enclosed in double quotes.
+You can only use the following operators: +,-,*,/,(,),=,<>,<,>,<=,>=,AND,OR,NOT.
+You can only use the following global functions: "Concat(string1,...)", "Date(Year, Month, Day)", "Day(Date)","Month(Date)","If(condition, truePart, falsePart)", "Today()","WeekDay(Date, Options)".
+You can only use the following properties: AmountDC, AmountFC, Currency, CustomerName, Division, SelectionCode, EntryDate, DueDate, SalesOrderNumber, SalesChannelCode, WarehouseCode.
+The default currency is EUR. The AmountDC contains always the amount in default currency. If the sales order is in another currency, the AmountFC contains the amount in foreign currency and the AmountDC contains the equivalent in default currency for that specific EntryDate. The EntryDate is the date of the sales order.
+Please answer concise and only provide the formula without explanation. If you need more input to build a valid formula, ask the user for it. If the user asks for explanation about the formula, explain what it means in business english.</textarea>
     </div>
     <label>Field Info</label>
 </div>
 <div>
-    <textarea id="txtfieldInfo" rows="2" cols="100"></textarea>
+    <textarea id="txtfieldInfo" rows="2" cols="100">amountdc represents sales amount. amountfc represents purchase amount.</textarea>
 </div>
 <div>
     <label>User</label>
@@ -39,15 +45,15 @@
        
         $(document).ready(function () {
             var historyMessage;
+            
             $("#responseDiv").hide();
             $("#generateResponse").click(function () {
-
+                var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
                 
                 if ($("#txtHistory").val() == "") {
-                    var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
                     $.ajax({
-                        url: "/Home/GetResponse/",
-                        type: "GET",
+                        url: "../Home/GetResponse/",
+                        type: "POST",
                         data: { userInput: $("#promptValue").val(), systemMessage: message},
                         dataType: "json",
                         success: function (data) {
@@ -60,6 +66,7 @@
                                 historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
                             }
                             $("#txtHistory").val(historyMessage);
+                            $("#promptValue").val("");
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
@@ -69,8 +76,8 @@
                 else {
                     
                     $.ajax({
-                        url: "/Home/GetResponse/",
-                        type: "GET",
+                        url: "../Home/GetResponse/",
+                        type: "POST",
                         data: { userInput: $("#promptValue").val(), systemMessage: message , history : $("#txtHistory").val() },
                         dataType: "json",
                         success: function (data) {
@@ -83,6 +90,7 @@
                                 historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
                             }
                             $("#txtHistory").val(historyMessage);
+                            $("#promptValue").val("");
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
