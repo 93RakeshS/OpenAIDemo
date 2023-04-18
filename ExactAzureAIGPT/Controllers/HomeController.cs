@@ -33,7 +33,7 @@ namespace ExactAzureAIGPT.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpPost]
-        public JsonResult GetResponse( string userInput = "", string systemMessage = "", string history="", string shotMessageUser = "", string shotMessageAssistant = "")
+        public JsonResult GetResponse( string userInput = "", string systemMessage = "", string history="", List<string>? shotMessagesUser = null, List<string>? shotMessagesAssistant = null)
         {
             try
             {
@@ -52,17 +52,28 @@ namespace ExactAzureAIGPT.Controllers
                 };
 
                 
-                shotMessageUser = (shotMessageUser == null) ? "" : shotMessageUser;
-                shotMessageAssistant = (shotMessageAssistant == null) ? "" : shotMessageAssistant;
-                
+                if(shotMessagesUser != null && shotMessagesAssistant != null)
+                {
+                    for(var i = 0 ; i < shotMessagesUser.Count;i++) 
+                    {
+                        input.Messages.Add(new ChatMessage(ChatRole.User, shotMessagesUser[i]));
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessagesAssistant[i]));
+                    }
+                    //foreach(var shotMessageUser in shotMessagesUser) 
+                    //{
+                    //    input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
+                    //}
+                    //foreach(var shotMessageAssistant in shotMessagesAssistant)
+                    //{
+                    //    input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
+                    //}
+                }
+
                 input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
-                input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
+                
                 if (history != "")
                 {
                     input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                    input.Messages.Add(new ChatMessage(ChatRole.User, shotMessageUser));
-                    input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessageAssistant));
                     var historyList = BuidlChatHistory(history);
                     foreach (var historyItem in historyList)
                     {

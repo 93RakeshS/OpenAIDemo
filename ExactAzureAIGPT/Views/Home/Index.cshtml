@@ -81,6 +81,12 @@ Refuse to generate programs or applications.</textarea>
             });
 
             $("#generateResponse").click(function() {
+
+                var userShotMessages = fetchUserShotMessage();
+                var assistantShotMessage = fetchAssistantShotMessage();
+                console.log("Shot User :", userShotMessages);
+                console.log("Shot Assistant :", assistantShotMessage);
+                
                 if ($("#promptValue").val() == '') {
                     $("#responseDiv").show();
                     $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">please provide proper input</div>');
@@ -88,16 +94,11 @@ Refuse to generate programs or applications.</textarea>
                 else {
                     var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
 
-                    var shotUser = $("#shotMessageUser").val();
-                    var shotAssistant = $("#shotMessageAssistant").val();
-                    console.log("Shot User :",shotUser);
-                    console.log("Shot Assistant :", shotAssistant);
-                    debugger;
                     if ($("#txtHistory").val() == "") {
                         $.ajax({
                             url: "../Home/GetResponse/",
                             type: "POST",
-                            data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
+                            data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
                             dataType: "json",
                             success: function(data) {
                                 $("#responseDiv").show();
@@ -123,7 +124,7 @@ Refuse to generate programs or applications.</textarea>
                         $.ajax({
                             url: "../Home/GetResponse/",
                             type: "POST",
-                            data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
+                            data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
                             dataType: "json",
                             success: function(data) {
                                 $("#responseDiv").show();
@@ -155,6 +156,26 @@ Refuse to generate programs or applications.</textarea>
 
             })
         });
+
+        function fetchUserShotMessage(){
+            const userTextareas = document.querySelectorAll('textarea.shotMessageUser');
+            const userValues = [];
+            debugger;
+            userTextareas.forEach(textarea => {
+                userValues.push(textarea.value);
+            });
+            return userValues;
+        }
+
+        function fetchAssistantShotMessage(){
+            const assitantTextareas = document.querySelectorAll('textarea.shotMessageAssistant');
+            const assitantValues = [];
+            debugger;
+            assitantTextareas.forEach(textarea => {
+                assitantValues.push(textarea.value);
+            });
+            return assitantValues;
+        }
     
         function generateShotExample() {
             // create the main container
@@ -166,10 +187,12 @@ Refuse to generate programs or applications.</textarea>
             const userLabel = document.createElement('label');
             userLabel.setAttribute('for', 'shotMessageUser');
             userLabel.classList.add('form-label');
+            
             userLabel.textContent = 'User :';
             const userTextarea = document.createElement('textarea');
             userTextarea.setAttribute('id', 'shotMessageUser');
             userTextarea.classList.add('form-control');
+            userTextarea.classList.add('shotMessageUser');
             userTextarea.setAttribute('rows', '2');
             userTextarea.setAttribute('cols', '65');
 
@@ -185,6 +208,7 @@ Refuse to generate programs or applications.</textarea>
             const assistantTextarea = document.createElement('textarea');
             assistantTextarea.setAttribute('id', 'shotMessageAssistant');
             assistantTextarea.classList.add('form-control');
+            assistantTextarea.classList.add('shotMessageAssistant');
             assistantTextarea.setAttribute('rows', '2');
             assistantTextarea.setAttribute('cols', '65');
 
