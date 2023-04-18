@@ -23,6 +23,7 @@ namespace ExactAzureAIGPT.Controllers
             if (Request.Cookies["secret"] != "test@ExactGPT007")
             {
                 throw new UnauthorizedAccessException("Unauthorised");
+                //}
             }
             base.OnActionExecuting(context);
         }
