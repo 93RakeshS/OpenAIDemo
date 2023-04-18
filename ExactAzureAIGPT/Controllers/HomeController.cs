@@ -35,60 +35,65 @@ namespace ExactAzureAIGPT.Controllers
         [HttpGet]
         public JsonResult GetResponse( string userInput, string systemMessage = "", string history="")
         {
-                        
-            OpenAIClient client = new OpenAIClient(
-            new Uri("https://eolai.openai.azure.com/"),
-            new AzureKeyCredential("4e248eeb1cd9440e8933201836a72bbd"));
-
-            var input = new ChatCompletionsOptions()
+            try
             {
-                Temperature = (float)0.7,
-                MaxTokens = 800,
-                NucleusSamplingFactor = (float)0.95,
-                FrequencyPenalty = 0,
-                PresencePenalty = 0,
+                OpenAIClient client = new OpenAIClient(
+                new Uri("https://eolai.openai.azure.com/"),
+                new AzureKeyCredential("4e248eeb1cd9440e8933201836a72bbd"));
 
-            };
-
-            var regex = new Regex(@"if.+\((.+)\).+\{.+\}");
-            ReadFile readFile = new ReadFile();
-            //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
-            //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
-            readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
-            if (history == "")
-            {
-                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-            }
-            else
-            {
-                var historyList = SaveChatHistory(history);
-                foreach(var historyItem in historyList)
+                var input = new ChatCompletionsOptions()
                 {
-                    input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
-                    input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
+                    Temperature = (float)0.7,
+                    MaxTokens = 800,
+                    NucleusSamplingFactor = (float)0.95,
+                    FrequencyPenalty = 0,
+                    PresencePenalty = 0,
+
+                };
+
+                var regex = new Regex(@"if.+\((.+)\).+\{.+\}");
+                ReadFile readFile = new ReadFile();
+                //var readFileContents = readFile.ReadContentofFile("fieldInfo.txt");
+                //var readFileContentConvo = readFile.ReadContentofFile("Conversation.txt");// File.ReadAllText("fieldinfo.txt");
+                readFile.WriteContentsToFile("\nUser :" + "\n" + userInput);
+                if (history == "")
+                {
+                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
                 }
-                
+                else
+                {
+                    var historyList = SaveChatHistory(history);
+                    foreach (var historyItem in historyList)
+                    {
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
+                        input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
+                    }
+
+                }
+                // input.Messages.Add(new ChatMessage(ChatRole.User, $"Here is the latest conversation : {readFileContentConvo}"));
+
+                input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
+
+                // ### If streaming is not selected
+                Response<ChatCompletions> responseWithoutStream = client.GetChatCompletionsAsync(
+                    "EOLgpt35", input
+                    ).Result;
+
+                var responseMessage = responseWithoutStream.Value.Choices.First().Message;
+
+                var content = responseMessage.Content;
+
+                var match = regex.Match(content);
+
+                //Console.WriteLine(match.Captures[0].Value);
+                readFile.WriteContentsToFile("\nGPT :" + "\n" + content);
+                input.Messages.Add(responseMessage);
+                return Json(content);
             }
-           // input.Messages.Add(new ChatMessage(ChatRole.User, $"Here is the latest conversation : {readFileContentConvo}"));
-
-            input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
-
-            // ### If streaming is not selected
-            Response<ChatCompletions> responseWithoutStream = client.GetChatCompletionsAsync(
-                "EOLgpt35", input
-                ).Result;
-
-            var responseMessage = responseWithoutStream.Value.Choices.First().Message;
-
-            var content = responseMessage.Content;
-
-            var match = regex.Match(content);
-
-            //Console.WriteLine(match.Captures[0].Value);
-            readFile.WriteContentsToFile("\nGPT :" + "\n" + content);
-            input.Messages.Add(responseMessage);
-            return Json(content);
-
+            catch(Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
 
         private List<ChatHistory> SaveChatHistory(string chatHistoryText)

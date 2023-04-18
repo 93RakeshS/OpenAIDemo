@@ -1,9 +1,0 @@
-
-User :
-sales is less than 200
-GPT :
-AmountDC < 200
-User :
-purchase greater than 200
-GPT :
-PurchaseAmount > 200

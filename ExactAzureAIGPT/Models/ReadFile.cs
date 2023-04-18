@@ -1,4 +1,6 @@
-﻿namespace ExactAzureAIGPT.Models
+﻿using System.IO;
+
+namespace ExactAzureAIGPT.Models
 {
     public class ReadFile
     {
@@ -9,10 +11,18 @@
 
         public void WriteContentsToFile(string content) 
         {
-            string chatHisoryFolder = "chatHistory";
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var newPath = baseDirectory.Replace(Path.GetRelativePath("ExactAzureAIGPT", baseDirectory).Split("..")[1], "");
+            string chatHistoryFolder = Path.Combine(newPath, "chatHistory");
+            if (!Directory.Exists(chatHistoryFolder))
+            {
+                Directory.CreateDirectory(chatHistoryFolder);
+            }
+
+            //string chatHisoryFolder = "chatHistory";
             string today = DateTime.Now.ToString("yyyy-MM-dd");
             string chatHistory = $"chatHistory_{today}.txt";
-            string filePath = Path.Combine(chatHisoryFolder, chatHistory);
+            string filePath = Path.Combine(chatHistoryFolder, chatHistory);
             File.AppendAllText(filePath, content);
         }
     }
