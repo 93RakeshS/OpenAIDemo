@@ -26,10 +26,14 @@
             </div>
         </div>
         <div class="shotMessageContainer">
-            <div style="margin-left: 19%">
-                <label>User Message</label>
+            <div style="font-size:medium;font-weight:bold">Shot Example</div>
+            <div>
+                User Message :
             </div><div><textarea id="shotMessageUser" rows="2" cols="65"></textarea></div>
-            <div><label>Assitant Message</label></div><div><textarea id="shotMessageAssistant" rows="2" cols="65"></textarea></div>
+            <div>
+                Assitant Message :
+            </div>
+            <div><textarea id="shotMessageAssistant" rows="2" cols="65"></textarea></div>
             <div><button id="clearResponse" value="Clear">Clear</button></div>
         </div>
                 
@@ -125,8 +129,8 @@
                             dataType: "json",
                             success: function (data) {
                                 $("#responseDiv").show();
-                                $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
-                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
+                                $("#responseDiv").append('<div class="userMessageDiv">' + $("#promptValue").val() + '</div>');
+                                $("#responseDiv").append('<div class="assistantMessageDiv">' + data +'</div>');
                                 if ($("#txtHistory").val() == "") {
                                     historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
                                 }
