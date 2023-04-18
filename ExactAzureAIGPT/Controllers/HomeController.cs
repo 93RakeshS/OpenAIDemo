@@ -19,21 +19,7 @@ namespace ExactAzureAIGPT.Controllers
         {
             _logger = logger;
         }
-        void Authorize()
-        {
-            if (Request.Cookies["secret"] != "test@ExactGPT007")
-            {
-                Response.Redirect("/Home/Error");
-            }
-        }
-        //public override void OnActionExecuting(ActionExecutingContext context)
-        //{
-        //    if (Request.Cookies["secret"] != "test@ExactGPT007")
-        //    {
-        //        throw new UnauthorizedAccessException("Unauthorised");
-        //    }
-        //      base.OnActionExecuting(context);
-        //}
+        
         [HttpGet]
         public IActionResult Error()
         {
@@ -42,7 +28,7 @@ namespace ExactAzureAIGPT.Controllers
         [AuthorizedFilter]
         public IActionResult Index()
         {
-           // Authorize();
+          
             return View();
         }
 
@@ -52,11 +38,7 @@ namespace ExactAzureAIGPT.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+       
         [HttpPost]
         public JsonResult GetResponse(string userInput, string systemMessage = "", string history = "")
         {
