@@ -62,7 +62,7 @@ textarea
 .blockContainer {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 85vh;
     width: 100%;
 }
 
@@ -86,20 +86,22 @@ textarea
 .shotMessageContainer {
     display: flex;
     flex-direction: column;
-    height: 20vh;
+    height: 35vh;
     align-items: flex-start;
-    justify-content: space-between;
     padding: 10px;
+    overflow-y: auto;
 }
 
 #shotMessageUser {
     align-self: flex-end;
     padding: 5px;
+    height: 40px;
 }
 
 #shotMessageAssistant {
     align-self: flex-start;
     padding: 5px;
+    height: 40px;
 }
 
 .userMessageDiv {
@@ -116,4 +118,8 @@ textarea
     border-radius: 6px;
     padding: 4px;
     margin: 2px;
+}
+
+.heading {
+    font-weight: bold
 }
