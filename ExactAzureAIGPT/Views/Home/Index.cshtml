@@ -37,14 +37,18 @@ Refuse to generate programs or applications.</textarea>
 
     </div>
     <div class="block col-md-6 shadow">
-        <div class="heading">
-            <label class="form-label">User</label>
-            <textarea class="form-control" id="promptValue" rows="2" cols="100"></textarea>
+        <h4>Chat session</h4>
+        <div>
+            <button id="clearResponse" class="btn btn-danger" value="Clear">Clear chat</button>
+        </div>
+        <div class="message-container" id="responseDiv" rows="10" cols="65"></div>
+        <div>
+            <label>User message</label>
+            <textarea class="form-control" id="promptValue" rows="1" cols="65"></textarea>
         </div>
         <button id="generateResponse" type="button" class="btn btn-primary mt-3">Generate</button>
-        <div id="responseDiv"></div>
         <div>
-            <textarea id="txtHistory" rows="10" cols="100"></textarea>
+            <textarea id="txtHistory" rows="10" cols="80"></textarea>
         </div>
     </div>
 </div>
@@ -72,7 +76,7 @@ Refuse to generate programs or applications.</textarea>
         $(document).ready(function() {
             var historyMessage;
 
-            $("#responseDiv").hide();
+            //$("#responseDiv").hide();
             $("#txtHistory").hide();
 
             $("#addShotMessage").click(function (){
@@ -88,7 +92,7 @@ Refuse to generate programs or applications.</textarea>
                 console.log("Shot Assistant :", assistantShotMessage);
                 
                 if ($("#promptValue").val() == '') {
-                    $("#responseDiv").show();
+                    //$("#responseDiv").show();
                     $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">please provide proper input</div>');
                 }
                 else {
@@ -101,7 +105,7 @@ Refuse to generate programs or applications.</textarea>
                             data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
                             dataType: "json",
                             success: function(data) {
-                                $("#responseDiv").show();
+                                //$("#responseDiv").show();
                                 $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
                                 $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data + '</div>');
 
@@ -127,7 +131,7 @@ Refuse to generate programs or applications.</textarea>
                             data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
                             dataType: "json",
                             success: function(data) {
-                                $("#responseDiv").show();
+                                //$("#responseDiv").show();
                                 $("#responseDiv").append('<div class="userMessageDiv">' + $("#promptValue").val() + '</div>');
                                 $("#responseDiv").append('<div class="assistantMessageDiv">' + data +'</div>');
                                 if ($("#txtHistory").val() == "") {
@@ -148,12 +152,7 @@ Refuse to generate programs or applications.</textarea>
             })
 
             $("#clearResponse").click(function() {
-
-                $("#sytemMessage").val("");
-                $("#txtfieldInfo").val("");
-                $("#shotMessageUser").val("");
-                $("#shotMessageAssistant").val("");
-
+                document.getElementById("responseDiv").innerHTML = "";
             })
         });
 
