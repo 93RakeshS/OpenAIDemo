@@ -41,11 +41,16 @@ Refuse to generate programs or applications.</textarea>
             </div>
         </div>
         <div class="message-container" id="responseDiv" rows="10" cols="65"></div>
-        <div>
+        <div class="m-3">
             <label>User message</label>
-            <textarea class="form-control" id="promptValue" rows="1" cols="65"></textarea>
+            <textarea class="form-control" id="promptValue" rows="3" cols="65"></textarea>
+            <div class="float-end">
+                <button id="generateResponse" type="button" class="btn btn-primary mt-3">
+                    <span class="spinner-border spinner-border-sm" style="display: none;" id="spinner" role="status" aria-hidden="true"></span>
+                    Generate
+                </button>
+            </div>
         </div>
-        <button id="generateResponse" type="button" class="btn btn-primary mt-3">Generate</button>
         <div>
             <textarea id="txtHistory" hidden></textarea>
         </div>
@@ -103,6 +108,10 @@ Refuse to generate programs or applications.</textarea>
                 var userShotMessages = fetchUserShotMessage();
                 var assistantShotMessage = fetchAssistantShotMessage();
                 myButton.disabled = true;
+                setTimeout(() => {
+                    $("#spinner").show();
+                }, 100)
+
 
                 var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
 
@@ -113,18 +122,7 @@ Refuse to generate programs or applications.</textarea>
                         data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
                         dataType: "json",
                         success: function(data) {
-                            //$("#responseDiv").show();
-                            $("#responseDiv").append('<div class=" userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + $("#promptValue").val() + '</div>');
-                            $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
-
-                            if ($("#txtHistory").val() == "") {
-                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
-                            }
-                            else {
-                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
-                            }
-                            $("#txtHistory").val(historyMessage);
-                            $("#promptValue").val("");
+                            onSuccess(data);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
@@ -139,23 +137,14 @@ Refuse to generate programs or applications.</textarea>
                         data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessagesUser: userShotMessages, shotMessagesAssistant: assistantShotMessage },
                         dataType: "json",
                         success: function(data) {
-                            //$("#responseDiv").show();
-                            $("#responseDiv").append('<div class="userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3"">' + $("#promptValue").val() + '</div>');
-                            $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
-                            if ($("#txtHistory").val() == "") {
-                                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
-                            }
-                            else {
-                                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
-                            }
-                            $("#txtHistory").val(historyMessage);
-                            $("#promptValue").val("");
+                            onSuccess(data);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
                         }
                     });
                 }
+               
 
             })
 
@@ -164,6 +153,23 @@ Refuse to generate programs or applications.</textarea>
                 document.getElementById("responseDiv").innerHTML = "";
             })
         });
+
+        function onSuccess(data) {
+            $("#responseDiv").append('<div class="userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + $("#promptValue").val() + '</div>');
+            $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
+
+            if ($("#txtHistory").val() == "") {
+                historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
+            }
+            else {
+                historyMessage = $("#txtHistory").val() + "\nU:" + $("#promptValue").val() + "\nA:" + data;
+            }
+            $("#txtHistory").val(historyMessage);
+            $("#promptValue").val("");
+             setTimeout(() => {
+                   $("#spinner").hide();
+                }, 100)
+        }
 
         function fetchUserShotMessage() {
             const userTextareas = document.querySelectorAll('textarea.shotMessageUser');
@@ -190,19 +196,19 @@ Refuse to generate programs or applications.</textarea>
 
             // create the user input field
             const userContainer = `
-            <div class="form-group">
-              <label for="shotMessageUser" class="form-label">User:</label>
-              <textarea class="shotMessageUser form-control user-input" rows="2" cols="65"></textarea>
-            </div>
-          `;
+                                            <div class="form-group">
+                                              <label for="shotMessageUser" class="form-label">User:</label>
+                                              <textarea class="shotMessageUser form-control user-input" rows="2" cols="65"></textarea>
+                                            </div>
+                                          `;
 
             // create the assistant input field
             const assistantContainer = `
-            <div class="form-group">
-              <label for="shotMessageAssistant" class="form-label">Assistant:</label>
-              <textarea class="shotMessageAssistant form-control assistant-input" rows="2" cols="65"></textarea>
-            </div>
-          `;
+                                            <div class="form-group">
+                                              <label for="shotMessageAssistant" class="form-label">Assistant:</label>
+                                              <textarea class="shotMessageAssistant form-control assistant-input" rows="2" cols="65"></textarea>
+                                            </div>
+                                          `;
 
             // append the heading and input fields to the main container
             mainContainer.innerHTML = userContainer + assistantContainer;
