@@ -3,14 +3,14 @@
     // Layout = null;
 }
 <style>
-    
+
 </style>
 <div class="blockContainer container-fluid">
-    <div class="block col-md-6">
+    <div class="block col-md-6 shadow">
         <button class="collapsible">System</button>
         <div class="content">
             <div>
-                <textarea id="sytemMessage" rows="7" cols="80">You are helping users of an accounting system to write validation rules for sales orders. The validation rules are Excel like formulas but you do not need to use an = sign at the start and you do not need to start with IF. The expression will be evaluated to TRUE or FALSE by the accounting system.
+                <textarea class="form-control" id="sytemMessage" rows="7" cols="80">You are helping users of an accounting system to write validation rules for sales orders. The validation rules are Excel like formulas but you do not need to use an = sign at the start and you do not need to start with IF. The expression will be evaluated to TRUE or FALSE by the accounting system.
     The following enumerations are all comma separated lists ended by period. In case a member contains a comma, the entire value will be enclosed in double quotes.
     You can only use the following operators: +,-,*,/,(,),=,<>,<,>,<=,>=,AND,OR,NOT.
     You can only use the following global functions: "Concat(string1,...)", "Date(Year, Month, Day)", "Day(Date)","Month(Date)","If(condition, truePart, falsePart)", "Today()","WeekDay(Date, Options)".
@@ -22,27 +22,39 @@
         <button class="collapsible">Information</button>
         <div class="content">
             <div>
-                <textarea id="txtfieldInfo" rows="2" cols="80">amountdc represents sales amount. amountfc represents purchase amount.</textarea>
+                <textarea class="form-control" id="txtfieldInfo" rows="2" cols="80">amountdc represents sales amount. amountfc represents purchase amount.</textarea>
             </div>
         </div>
         <div class="shotMessageContainer">
-            <div style="margin-left: 19%">
-                <label>User Message</label>
-            </div><div><textarea id="shotMessageUser" rows="2" cols="65"></textarea></div>
-            <div><label>Assitant Message</label></div><div><textarea id="shotMessageAssistant" rows="2" cols="65"></textarea></div>
-            <div><button id="clearResponse" value="Clear">Clear</button></div>
+            <div class="mb-3">
+                <div>
+                    <label for="shotMessageUser" class="form-label">User Message</label>
+                </div>
+                <div>
+                    <textarea id="shotMessageUser" class="form-control" rows="2" cols="65"></textarea>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label class="form-label" for="shotMessageAssistant">Assitant Message</label>
+                </div>
+                <div>
+                    <textarea id="shotMessageAssistant" class="form-control" rows="2" cols="65"></textarea>
+                </div>
+                <div>
+                    <button id="clearResponse" class="btn btn-danger" value="Clear">Clear</button>
+                </div>
+            </div>
         </div>
-                
+
     </div>
-    <div class="block col-md-6">
+    <div class="block col-md-6 shadow">
         <div>
-            <label>User</label>
+            <label class="form-label">User</label>
+            <textarea class="form-control" id="promptValue" rows="2" cols="100"></textarea>
         </div>
-        <div>
-            <textarea id="promptValue" rows="2" cols="100"></textarea>
-        </div>
-        <button id="generateResponse" value="Generate">Generate</button>
-        <div id="responseDiv" style="width:119%"></div>
+        <button id="generateResponse" type="button" class="btn btn-primary mt-3">Generate</button>
+        <div id="responseDiv"></div>
         <div>
             <textarea id="txtHistory" rows="10" cols="100"></textarea>
         </div>
@@ -55,51 +67,48 @@
     <script>
 
         var coll = document.getElementsByClassName("collapsible");
-        var i;
+        var i;
 
- 
 
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        }
 
-        $(document).ready(function () {
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+
+        $(document).ready(function() {
             var historyMessage;
 
             $("#responseDiv").hide();
             $("#txtHistory").hide();
-            $("#generateResponse").click(function () {
-                if($("#promptValue").val() == '')
-                {
+            $("#generateResponse").click(function() {
+                if ($("#promptValue").val() == '') {
                     $("#responseDiv").show();
                     $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">please provide proper input</div>');
                 }
-                else
-                {
+                else {
                     var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
 
-                    var shotUser = $("#shotMessageUser").val();                
+                    var shotUser = $("#shotMessageUser").val();
                     var shotAssistant = $("#shotMessageAssistant").val();
-                
-                    if ($("#txtHistory").val() == "") 
-                    {
+
+                    if ($("#txtHistory").val() == "") {
                         $.ajax({
                             url: "../Home/GetResponse/",
                             type: "POST",
-                                data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
+                            data: { userInput: $("#promptValue").val(), systemMessage: message, shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
                             dataType: "json",
-                            success: function (data) {
+                            success: function(data) {
                                 $("#responseDiv").show();
                                 $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
-                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
+                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data + '</div>');
 
                                 if ($("#txtHistory").val() == "") {
                                     historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
@@ -110,23 +119,22 @@
                                 $("#txtHistory").val(historyMessage);
                                 $("#promptValue").val("");
                             },
-                            error: function (jqXHR, textStatus, errorThrown) {
+                            error: function(jqXHR, textStatus, errorThrown) {
                                 console.log(textStatus, errorThrown);
                             }
                         });
                     }
-                    else
-                    {
+                    else {
 
                         $.ajax({
                             url: "../Home/GetResponse/",
                             type: "POST",
-                                data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
+                            data: { userInput: $("#promptValue").val(), systemMessage: message, history: $("#txtHistory").val(), shotMessageUser: $("#shotMessageUser").val(), shotMessageAssistant: $("#shotMessageAssistant").val() },
                             dataType: "json",
-                            success: function (data) {
+                            success: function(data) {
                                 $("#responseDiv").show();
                                 $("#responseDiv").append('<div class="userMessageDiv" style="text-align:right;background-color:grey;color:white">' + $("#promptValue").val() + '</div>');
-                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data +'</div>');
+                                $("#responseDiv").append('<div class="assistantMessageDiv" style="background-color:grey;color:white">' + data + '</div>');
                                 if ($("#txtHistory").val() == "") {
                                     historyMessage = "U:" + $("#promptValue").val() + "\nA:" + data;
                                 }
@@ -136,7 +144,7 @@
                                 $("#txtHistory").val(historyMessage);
                                 $("#promptValue").val("");
                             },
-                            error: function (jqXHR, textStatus, errorThrown) {
+                            error: function(jqXHR, textStatus, errorThrown) {
                                 console.log(textStatus, errorThrown);
                             }
                         });
@@ -144,14 +152,14 @@
                 }
             })
 
-            $("#clearResponse").click(function () {
+            $("#clearResponse").click(function() {
 
-                $("#sytemMessage").val("");
-                $("#txtfieldInfo").val("");
+                $("#sytemMessage").val("");
+                $("#txtfieldInfo").val("");
                 $("#shotMessageUser").val("");
                 $("#shotMessageAssistant").val("");
 
-            })
+            })
         });
     </script>
 }
