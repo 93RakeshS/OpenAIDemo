@@ -5,12 +5,12 @@
 <style>
     
 </style>
-<div class="blockContainer">
-    <div class="block">
+<div class="blockContainer container-fluid">
+    <div class="block col-md-6">
         <button class="collapsible">System</button>
         <div class="content">
             <div>
-                <textarea id="sytemMessage" rows="7" cols="100">You are helping users of an accounting system to write validation rules for sales orders. The validation rules are Excel like formulas but you do not need to use an = sign at the start and you do not need to start with IF. The expression will be evaluated to TRUE or FALSE by the accounting system.
+                <textarea id="sytemMessage" rows="7" cols="80">You are helping users of an accounting system to write validation rules for sales orders. The validation rules are Excel like formulas but you do not need to use an = sign at the start and you do not need to start with IF. The expression will be evaluated to TRUE or FALSE by the accounting system.
     The following enumerations are all comma separated lists ended by period. In case a member contains a comma, the entire value will be enclosed in double quotes.
     You can only use the following operators: +,-,*,/,(,),=,<>,<,>,<=,>=,AND,OR,NOT.
     You can only use the following global functions: "Concat(string1,...)", "Date(Year, Month, Day)", "Day(Date)","Month(Date)","If(condition, truePart, falsePart)", "Today()","WeekDay(Date, Options)".
@@ -22,16 +22,19 @@
         <button class="collapsible">Information</button>
         <div class="content">
             <div>
-                <textarea id="txtfieldInfo" rows="2" cols="100">amountdc represents sales amount. amountfc represents purchase amount.</textarea>
+                <textarea id="txtfieldInfo" rows="2" cols="80">amountdc represents sales amount. amountfc represents purchase amount.</textarea>
             </div>
         </div>
         <div class="shotMessageContainer">
-            <textarea id="shotMessageUser" rows="2" cols="80"></textarea>
-            <textarea id="shotMessageAssistant" rows="2" cols="80"></textarea>
+            <div style="margin-left: 19%">
+                <label>User Message</label>
+            </div><div><textarea id="shotMessageUser" rows="2" cols="65"></textarea></div>
+            <div><label>Assitant Message</label></div><div><textarea id="shotMessageAssistant" rows="2" cols="65"></textarea></div>
+            <div><button id="clearResponse" value="Clear">Clear</button></div>
         </div>
-        <button id="clearResponse" value="Clear">Clear</button>
+                
     </div>
-    <div class="block">
+    <div class="block col-md-6">
         <div>
             <label>User</label>
         </div>
@@ -39,7 +42,7 @@
             <textarea id="promptValue" rows="2" cols="100"></textarea>
         </div>
         <button id="generateResponse" value="Generate">Generate</button>
-        <div id="responseDiv"></div>
+        <div id="responseDiv" style="width:119%"></div>
         <div>
             <textarea id="txtHistory" rows="10" cols="100"></textarea>
         </div>
