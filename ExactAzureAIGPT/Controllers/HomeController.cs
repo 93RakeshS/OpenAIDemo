@@ -34,7 +34,7 @@ namespace ExactAzureAIGPT.Controllers
 
 
         [HttpPost]
-        public JsonResult GetResponse(string userInput = "", string systemMessage = "", string history = "", IEnumerable<string>? shotMessagesUser = null, IEnumerable<string>? shotMessagesAssistant = null)
+        public JsonResult GetResponse(List<ChatHistory> conversations, string userInput, string systemMessage = "")
         {
             try
             {
@@ -52,37 +52,28 @@ namespace ExactAzureAIGPT.Controllers
 
                 };
 
-                input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-
-                if (shotMessagesUser != null && shotMessagesUser.Any() && (shotMessagesAssistant != null && shotMessagesAssistant.Any()))
+                if(!string.IsNullOrEmpty(systemMessage)) 
+                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+                
+                if (conversations.Any())
                 {
-                    for (var i = 0; i < shotMessagesUser.Count(); i++)
+                    foreach (var conversation in conversations)
                     {
-                        input.Messages.Add(new ChatMessage(ChatRole.User, shotMessagesUser.ElementAt(i)));
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, shotMessagesUser.ElementAt(i)));
+                        input.Messages.Add(new ChatMessage(ChatRole.User, conversation.User));
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, conversation.Assistant));
                     }
                 }
 
-                if (!string.IsNullOrEmpty(history))
-                {
-                    var historyList = BuildChatHistory(history);
-                    foreach (var historyItem in historyList)
-                    {
-                        input.Messages.Add(new ChatMessage(ChatRole.User, historyItem.User));
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, historyItem.Assistant));
-                    }
-                }
                 input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
 
-                Response<ChatCompletions> responseWithoutStream = client.GetChatCompletionsAsync(
+                Response<ChatCompletions> response = client.GetChatCompletionsAsync(
                     "EOLgpt35", input
                     ).Result;
 
-                var responseMessage = responseWithoutStream.Value.Choices.First().Message;
+                var responseMessage = response.Value.Choices.First().Message;
 
                 var content = responseMessage.Content;
 
-                input.Messages.Add(responseMessage);
                 return Json(content);
             }
             catch (Exception ex)
@@ -91,23 +82,5 @@ namespace ExactAzureAIGPT.Controllers
                 return Json(ex.ToString());
             }
         }
-
-        private List<ChatHistory> BuildChatHistory(string chatHistoryText)
-        {
-            List<ChatHistory> chatHistory = new List<ChatHistory>();
-            string[] chatHistoryLines = chatHistoryText.Trim().Split('\n');
-
-            for (int i = 0; i < chatHistoryLines.Length - 1; i += 2)
-            {
-                string userMessage = chatHistoryLines[i].Replace("U:", "").Trim();
-                string assistantMessage = chatHistoryLines[i + 1].Replace("A:", "").Trim();
-
-                if (!string.IsNullOrEmpty(userMessage) && !string.IsNullOrEmpty(assistantMessage))
-                    chatHistory.Add(new ChatHistory { User = userMessage, Assistant = assistantMessage });
-            }
-
-            return chatHistory;
-        }
-
     }
 }
