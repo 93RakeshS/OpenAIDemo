@@ -88,7 +88,7 @@ namespace ExactAzureAIGPT.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return Json("try again");
+                return Json(ex.ToString());
             }
         }
 
@@ -97,12 +97,13 @@ namespace ExactAzureAIGPT.Controllers
             List<ChatHistory> chatHistory = new List<ChatHistory>();
             string[] chatHistoryLines = chatHistoryText.Trim().Split('\n');
 
-            for (int i = 0; i < chatHistoryLines.Length; i += 2)
+            for (int i = 0; i < chatHistoryLines.Length - 1; i += 2)
             {
                 string userMessage = chatHistoryLines[i].Replace("U:", "").Trim();
                 string assistantMessage = chatHistoryLines[i + 1].Replace("A:", "").Trim();
 
-                chatHistory.Add(new ChatHistory { User = userMessage, Assistant = assistantMessage });
+                if (!string.IsNullOrEmpty(userMessage) && !string.IsNullOrEmpty(assistantMessage))
+                    chatHistory.Add(new ChatHistory { User = userMessage, Assistant = assistantMessage });
             }
 
             return chatHistory;
