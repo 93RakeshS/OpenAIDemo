@@ -25,6 +25,16 @@ const observer = new MutationObserver(() => {
 observer.observe(container, { childList: true });
 
 $(document).ready(function () {
+
+    $("#toggleLeftPanel").on("click", function () {
+        if ($("#toggleLeftPanel").text() === "Hide Assistant Setup")
+            $("#toggleLeftPanel").text("Show Assistant Setup");
+        else
+            $("#toggleLeftPanel").text("Hide Assistant Setup");
+        $("#leftPanel").toggleClass("transformed");
+        $("#rightPanel").toggleClass("transformed");
+    });
+   
     userInput = $("#promptValue").val();
     const textArea = document.getElementById("promptValue");
     const myButton = document.getElementById("generateResponse");

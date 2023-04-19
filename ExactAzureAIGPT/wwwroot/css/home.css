@@ -124,3 +124,23 @@ textarea {
     color: white;
     display: inline-block;
 }
+
+#leftPanel {
+    transition: all 0.5s ease-in-out;
+    transform: translateX(0);
+}
+
+    #leftPanel.transformed {
+        overflow:hidden;
+        opacity:0;
+        transform: translateX(-50%);
+    }
+
+#rightPanel {
+    transition: all 0.5s ease-in-out;
+    transform: translateX(0%);
+}
+
+    #rightPanel.transformed {
+        transform: translateX(-50%);
+    }
