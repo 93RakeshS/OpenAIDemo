@@ -2,7 +2,7 @@
 let historyMessages = [];
 let shotExamples = [];
 let conversations = [];
-
+let userInput = "";
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -25,7 +25,7 @@ const observer = new MutationObserver(() => {
 observer.observe(container, { childList: true });
 
 $(document).ready(function () {
-    const userInput = $("#promptValue").val();
+    userInput = $("#promptValue").val();
     const textArea = document.getElementById("promptValue");
     const myButton = document.getElementById("generateResponse");
     myButton.disabled = true;
@@ -47,7 +47,7 @@ $(document).ready(function () {
     });
 
     $("#generateResponse").click(function () {
-
+        userInput = $("#promptValue").val();
         myButton.disabled = true;
         setTimeout(() => {
             $("#spinner").show();
