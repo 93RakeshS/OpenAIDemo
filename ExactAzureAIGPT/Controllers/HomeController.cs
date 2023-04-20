@@ -3,17 +3,20 @@ using Azure.AI.OpenAI;
 using ExactAzureAIGPT.Filter;
 using ExactAzureAIGPT.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using ILogger = ExactAzureAIGPT.Interface.ILogger;
 namespace ExactAzureAIGPT.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IConfiguration _configuration;
-        public HomeController(IConfiguration configuration)
+        private readonly ILogger _logger;
+
+        public HomeController(IConfiguration configuration,ILogger logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
-
+       
         [HttpGet]
         public IActionResult Error()
         {
@@ -37,11 +40,11 @@ namespace ExactAzureAIGPT.Controllers
         public JsonResult GetResponse(List<ChatHistory> conversations, string userInput, string systemMessage = "")
         {
             try
-            {
+            {                
                 OpenAIClient client = new OpenAIClient(
                 new Uri(_configuration["AzureOpenAIurl"]),
                 new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
-
+                               
                 var input = new ChatCompletionsOptions()
                 {
                     Temperature = (float)0.7,
@@ -60,7 +63,7 @@ namespace ExactAzureAIGPT.Controllers
                     foreach (var conversation in conversations)
                     {
                         input.Messages.Add(new ChatMessage(ChatRole.User, conversation.User));
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, conversation.Assistant));
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, conversation.Assistant));                        
                     }
                 }
 
@@ -74,12 +77,16 @@ namespace ExactAzureAIGPT.Controllers
 
                 var content = responseMessage.Content;
 
+                _logger.LogInfo("System : " + systemMessage);
+                _logger.LogInfo("User : " + userInput);
+                _logger.LogInfo("Assistant : " + content);                
                 return Json(content);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return Json(ex.ToString());
+                _logger.LogError(ex.ToString());
+                return Json(ex.ToString());                
             }
         }
     }

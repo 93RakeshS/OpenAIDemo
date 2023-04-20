@@ -1,8 +1,13 @@
+using ExactAzureAIGPT.Middleware;
+using ILoggerFactory = ExactAzureAIGPT.Interface.ILoggerFactory;
+using LoggerFactory = ExactAzureAIGPT.Factory.LoggerFactory;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSingleton<ILoggerFactory, LoggerFactory>();
+builder.Services.AddSingleton(provider => provider.GetRequiredService<ILoggerFactory>()
+ .CreateLogger("text"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -15,6 +20,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseMiddleware<LoggingMiddleware>();
 
 app.UseRouting();
 
