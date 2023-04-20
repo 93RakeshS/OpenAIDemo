@@ -1,9 +1,9 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using ExactAzureAIGPT.Filter;
+using ExactAzureAIGPT.Helpers;
 using ExactAzureAIGPT.Models;
 using Microsoft.AspNetCore.Mvc;
-using ExactAzureAIGPT.Helpers;
 
 namespace ExactAzureAIGPT.Controllers
 {
