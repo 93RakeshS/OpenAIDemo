@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ILoggerFactory, LoggerFactory>();
 builder.Services.AddSingleton(provider => provider.GetRequiredService<ILoggerFactory>()
- .CreateLogger("text"));
+ .CreateLogger(builder.Configuration.GetValue<string>("LoggerType")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
