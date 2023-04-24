@@ -79,12 +79,11 @@ namespace ExactAzureAIGPT.Controllers
 
                 _logger.LogInfo("System : " + systemMessage);
                 _logger.LogInfo("User : " + userInput);
-                _logger.LogInfo("Assistant : " + content);                
+                _logger.LogInfo("Assistant : " + content);
                 return Json(content);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 _logger.LogError(ex.ToString());
                 return Json(ex.ToString());                
             }

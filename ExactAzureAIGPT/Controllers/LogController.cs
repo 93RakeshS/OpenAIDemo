@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace ExactAzureAIGPT.Controllers
 {
@@ -20,17 +21,57 @@ namespace ExactAzureAIGPT.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(date))
-                {
-                    date = $"{DateTime.Now:yyyy-MM-dd}";
-                }
+                string dateFormat = "yyyy-MM-dd";
                 string logDirectory = _configuration.GetValue<string>("LogFilePath");
-                string logFilePath = Path.Combine(logDirectory, $"{date}.log");
-                string fileContent;
-                using (StreamReader reader = new StreamReader(logFilePath))
+                if (Directory.Exists(logDirectory))
                 {
-                    fileContent = reader.ReadToEnd();
-                    return Content(fileContent, "text/plain");
+
+                    if (string.IsNullOrEmpty(date))
+                    {
+                        date = $"{DateTime.Now:yyyy-MM-dd}";
+                    }
+
+                    bool isValidDate = IsValidDateFormat(date, dateFormat);
+
+                    if (isValidDate)
+                    {
+                        string logFilePath = Path.Combine(logDirectory, $"{date}.log");
+                        string fileContent;
+                        using (StreamReader reader = new StreamReader(logFilePath))
+                        {
+                            fileContent = reader.ReadToEnd();
+                            return Content(fileContent, "text/plain");
+                        }
+                    }
+                    else
+                    {
+                        return Content("Please provide date in yyyy-MM-dd format");
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(logDirectory);
+                    if (string.IsNullOrEmpty(date))
+                    {
+                        date = $"{DateTime.Now:yyyy-MM-dd}";
+                    }
+
+                    bool isValidDate = IsValidDateFormat(date, dateFormat);
+
+                    if (isValidDate)
+                    {
+                        string logFilePath = Path.Combine(logDirectory, $"{date}.log");
+                        string fileContent;
+                        using (StreamReader reader = new StreamReader(logFilePath))
+                        {
+                            fileContent = reader.ReadToEnd();
+                            return Content(fileContent, "text/plain");
+                        }
+                    }
+                    else
+                    {
+                        return Content("Please provide date in yyyy-MM-dd format");
+                    }
                 }
 
             }
@@ -38,11 +79,17 @@ namespace ExactAzureAIGPT.Controllers
             {
                 return Content("File Not found: " + date);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Content("Please provide date in yyyy-MM-dd format");
             }
 
+        }
+
+        static bool IsValidDateFormat(string dateString, string dateFormat)
+        {
+            DateTime result;
+            return DateTime.TryParseExact(dateString, dateFormat, null, System.Globalization.DateTimeStyles.None, out result);
         }
     }
 }
