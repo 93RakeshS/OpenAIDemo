@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using ExactAzureAIGPT.Filter;
+using ExactAzureAIGPT.Helpers;
 using ExactAzureAIGPT.Models;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = ExactAzureAIGPT.Interface.ILogger;
@@ -52,18 +53,17 @@ namespace ExactAzureAIGPT.Controllers
                     NucleusSamplingFactor = (float)0.95,
                     FrequencyPenalty = 0,
                     PresencePenalty = 0,
-
                 };
 
-                if(!string.IsNullOrEmpty(systemMessage)) 
+                if(!string.IsNullOrEmpty(systemMessage))
                     input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-                
+
                 if (conversations.Any())
                 {
                     foreach (var conversation in conversations)
                     {
                         input.Messages.Add(new ChatMessage(ChatRole.User, conversation.User));
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, conversation.Assistant));                        
+                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, conversation.Assistant.SanitizeHtml()));
                     }
                 }
 
@@ -75,7 +75,7 @@ namespace ExactAzureAIGPT.Controllers
 
                 var responseMessage = response.Value.Choices.First().Message;
 
-                var content = responseMessage.Content;
+                var content = responseMessage.Content.ReplaceNewLineWithHtmlBreak();
 
                 _logger.LogInfo("System : " + systemMessage);
                 _logger.LogInfo("User : " + userInput);

@@ -65,7 +65,11 @@ $(document).ready(function () {
 
         conversations = shotExamples.concat(historyMessages);
 
-        var message = $("#sytemMessage").val() + "\n Here are the mappings:" + $("#txtfieldInfo").val();
+        var message = $("#sytemMessage").val() ;
+
+        if ($("#txtfieldInfo").val()) {
+            message = message + + "\n Here are the mappings:" + $("#txtfieldInfo").val();
+        }
 
         $.ajax({
             url: "../Home/GetResponse/",
@@ -85,6 +89,7 @@ $(document).ready(function () {
     $("#clearResponse").click(function () {
         document.getElementById("responseDiv").innerHTML = "";
         historyMessages = [];
+        conversations = [];
         readShotMessagesWithHistory();
     })
 });
