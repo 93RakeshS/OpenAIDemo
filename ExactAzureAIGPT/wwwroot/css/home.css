@@ -1,4 +1,11 @@
-﻿.collapsible {
+﻿.sys-msg {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.collapsible {
     background-color: #777;
     color: white;
     cursor: pointer;
@@ -10,40 +17,70 @@
     font-size: 15px;
 }
 
-    .active, .collapsible:hover {
-        background-color: #555;
-    }
+.active,
+.collapsible:hover {
+    background-color: #555;
+}
 
-    .collapsible:after {
-        content: '\002B';
-        color: white;
-        font-weight: bold;
-        float: right;
-        margin-left: 5px;
-    }
+.collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
 
 .active:after {
     content: "\2212";
 }
 
+.text-area {
+    margin-bottom: 1rem;
+    box-shadow: none;
+}
+.text-area:focus{
+    box-shadow: none;
+}
+
 .content {
-    padding: 0 18px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
 }
 
-
-textarea {
-    margin-top: 4px;
+.shotMessageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 40vh;
+    overflow-y: auto;
+    margin-top: 1rem;
 }
 
-.blockContainer {
+.float-end {
+    margin-top: 20px;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    height: 10%;
+}
+
+.chat-session {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.block-container {
     display: flex;
     flex-direction: row;
     height: 85vh;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .container {
@@ -52,53 +89,35 @@ textarea {
 
 .block {
     flex: 1;
-    margin: 5px;
 }
 
-    .block:first-child {
-        margin-right: 15px;
-    }
-
-    .block:last-child {
-        margin-left: 0;
-    }
-
-.shotMessageContainer {
-    display: flex;
-    flex-direction: column;
-    height: 35vh;
-    align-items: flex-start;
-    padding: 10px;
-    overflow-y: auto;
+.block:first-child {
+    margin-right: 15px;
 }
 
-#shotMessageUser {
-    align-self: flex-end;
-    padding: 5px;
-    height: 40px;
+.block:last-child {
+    margin-left: 0;
 }
 
-#shotMessageAssistant {
-    align-self: flex-start;
-    padding: 5px;
-    height: 40px;
+.home-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    height: 21%;
 }
 
-.userMessageDiv {
-    margin-top: 1rem;
-    text-align: right;
-    background-color: #c2f0c2;
-    color: black;
-    border-radius: 6px;
-    padding: 4px;
+.user-message-div {
+    width: 100%;
+    float: right;
+    margin-bottom: 10px;
 }
 
-.assistantMessageDiv {
-    margin-top: 1rem;
-    background-color: #cce6ff;
-    color: black;
-    border-radius: 6px;
-    padding: 4px;
+.assistant-message-div {
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
 }
 
 .heading {
@@ -106,41 +125,106 @@ textarea {
 }
 
 .message-container {
-    border: #000;
     padding: 10px;
     margin: auto;
-    height: 450px;
-    border-radius: 6px;
     overflow-y: auto;
+    height: 69%;
+    background-color: #aba4a412;
 }
 
-.userMessage {
-    background-color: #F8F9FA;
-    display: inline-block;
+.user-message {
+    width: fit-content;
+    float: right;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    border-radius: 8px;
 }
 
-.assistantMessage {
-    background-color: #0D6EFD;
-    color: white;
-    display: inline-block;
+.assistant-message {
+    width: fit-content;
+    float: left;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    border-radius: 8px;
+    background-color: rgb(252, 207, 207);
 }
 
 #leftPanel {
+    padding: 10px 20px;
     transition: all 0.5s ease-in-out;
     transform: translateX(0);
 }
 
-    #leftPanel.transformed {
-        overflow:hidden;
-        opacity:0;
-        transform: translateX(-50%);
-    }
+#leftPanel.transformed {
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(-50%);
+}
 
 #rightPanel {
     transition: all 0.5s ease-in-out;
     transform: translateX(0%);
 }
 
-    #rightPanel.transformed {
-        transform: translateX(-50%);
-    }
+#rightPanel.transformed {
+    transform: translateX(-50%);
+}
+
+.shot-example {
+    width: 100%;
+    padding-right: 5px;
+
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.label {
+   font-weight: 500;
+}
+.field-info-textarea{
+    border: none;
+}
+.field-info-textarea:focus{
+   box-shadow: none;
+   border-color: #86b7fe;
+}
+.accordion-body {
+    padding: 0px !important;
+}
+
+.accordion-button:hover {
+   color: #212529;
+}
+
+.accordion-button:not(.collapsed)::after {
+    content: "-";
+    font-size: 30px;
+    line-height: 0.5;
+    background-image: none;
+    transform: none;
+    background-color: none;
+    color: #DC3545;
+}
+.accordion-button.collapsed{
+    background-color: #fff;
+}
+.btn:first-child:active{
+    background-color: #fff;
+}
+
+.accordion-button.collapsed::after {
+    content: "+";
+    font-size: 30px;
+    line-height: 0.5;
+    background-image: none;
+}
+
+.accordion-button:not(.collapsed) {
+    background: rgb(252, 207, 207) ;
+    color: #DC3545;
+}
+
+.accordion-button:focus {
+    background-color: none;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}

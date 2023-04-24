@@ -95,8 +95,8 @@ $(document).ready(function () {
 });
 
 function onSuccess(data) {
-    $("#responseDiv").append('<div class="userMessage d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + userInput + '</div>');
-    $("#responseDiv").append('<div class="assistantMessage d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
+    $("#responseDiv").append('<div class="user-message-div"><div class="user-message d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + userInput + '</div></div>');
+    $("#responseDiv").append('<div class="assistant-message-div"><div class="assistant-message d-flex p-2 bd-highlight shadow-sm mt-3">' + data + '</div>');
 
     historyMessages.push({
         User: userInput,
@@ -117,7 +117,7 @@ function generateShotExample() {
     // create the user input field
     const userContainer = `
                                             <div class="form-group">
-                                              <label for="shotMessageUser" class="form-label">User:</label>
+                                              <label for="shotMessageUser" class="label">User</label>
                                               <textarea class="shotMessageUser form-control user-input" rows="2" cols="65"></textarea>
                                             </div>
                                           `;
@@ -125,7 +125,7 @@ function generateShotExample() {
     // create the assistant input field
     const assistantContainer = `
                                             <div class="form-group">
-                                              <label for="shotMessageAssistant" class="form-label">Assistant:</label>
+                                              <label for="shotMessageAssistant" class="label">Assistant</label>
                                               <textarea class="shotMessageAssistant form-control assistant-input" rows="2" cols="65"></textarea>
                                             </div>
                                           `;
