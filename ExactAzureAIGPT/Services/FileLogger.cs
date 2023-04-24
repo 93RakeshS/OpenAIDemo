@@ -15,28 +15,13 @@ namespace ExactAzureAIGPT.Services
         {
             try
             {
-                if (Directory.Exists(_logDirectory))
-                {
-                    string logFilePath = Path.Combine(_logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log");
-                    string logMessage = $"{DateTime.Now:T} [Info]: {message}";
+                string logFilePath = Path.Combine(_logDirectory, $"eolgpt_{DateTime.Now:yyyy-MM-dd}.log");
+                string logMessage = $"{DateTime.Now:T} [Info]: {message}";
 
-                    // Append the log message to the text file
-                    using (StreamWriter sw = File.AppendText(logFilePath))
-                    {
-                        sw.WriteLine(logMessage);
-                    }
-                }
-                else
+                // Append the log message to the text file
+                using (StreamWriter sw = File.AppendText(logFilePath))
                 {
-                    Directory.CreateDirectory(_logDirectory);
-                    string logFilePath = Path.Combine(_logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log");
-                    string logMessage = $"{DateTime.Now:T} [Info]: {message}";
-
-                    // Append the log message to the text file
-                    using (StreamWriter sw = File.AppendText(logFilePath))
-                    {
-                        sw.WriteLine(logMessage);
-                    }
+                    sw.WriteLine(logMessage);
                 }
             }
             catch (Exception)
@@ -49,35 +34,19 @@ namespace ExactAzureAIGPT.Services
         {
             try
             {
-                if (Directory.Exists(_logDirectory))
-                {
-                    string logFilePath = Path.Combine(_logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log");
-                    string logMessage = $"{DateTime.Now:T} [Error]: {message}";
+                string logFilePath = Path.Combine(_logDirectory, $"eolgpt_{DateTime.Now:yyyy-MM-dd}.log");
+                string logMessage = $"{DateTime.Now:T} [Error]: {message}";
 
-                    // Append the log message to the text file
-                    using (StreamWriter sw = File.AppendText(logFilePath))
-                    {
-                        sw.WriteLine(logMessage);
-                    }
-                }
-                else
+                // Append the log message to the text file
+                using (StreamWriter sw = File.AppendText(logFilePath))
                 {
-                    Directory.CreateDirectory(_logDirectory);
-                    string logFilePath = Path.Combine(_logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log");
-                    string logMessage = $"{DateTime.Now:T} [Error]: {message}";
-
-                    // Append the log message to the text file
-                    using (StreamWriter sw = File.AppendText(logFilePath))
-                    {
-                        sw.WriteLine(logMessage);
-                    }
+                    sw.WriteLine(logMessage);
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-
         }
 
     }

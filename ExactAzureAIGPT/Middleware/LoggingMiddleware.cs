@@ -8,7 +8,6 @@ namespace ExactAzureAIGPT.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
-
         private string providerType;
 
         public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
@@ -18,8 +17,6 @@ namespace ExactAzureAIGPT.Middleware
             _logger = loggerFactory.CreateLogger("text");
             
         }
-
-
 
         public async Task Invoke(HttpContext context)
         {

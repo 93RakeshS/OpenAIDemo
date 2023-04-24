@@ -17,7 +17,7 @@ namespace ExactAzureAIGPT.Controllers
             _configuration = configuration;
             _logger = logger;
         }
-       
+
         [HttpGet]
         public IActionResult Error()
         {
@@ -26,7 +26,6 @@ namespace ExactAzureAIGPT.Controllers
         [AuthorizedFilter]
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -41,11 +40,11 @@ namespace ExactAzureAIGPT.Controllers
         public JsonResult GetResponse(List<ChatHistory> conversations, string userInput, string systemMessage = "")
         {
             try
-            {                
+            {
                 OpenAIClient client = new OpenAIClient(
                 new Uri(_configuration["AzureOpenAIurl"]),
                 new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
-                               
+
                 var input = new ChatCompletionsOptions()
                 {
                     Temperature = (float)0.7,
@@ -55,7 +54,7 @@ namespace ExactAzureAIGPT.Controllers
                     PresencePenalty = 0,
                 };
 
-                if(!string.IsNullOrEmpty(systemMessage))
+                if (!string.IsNullOrEmpty(systemMessage))
                     input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
 
                 if (conversations.Any())
@@ -85,7 +84,7 @@ namespace ExactAzureAIGPT.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.ToString());
-                return Json(ex.ToString());                
+                return Json(ex.ToString());
             }
         }
     }

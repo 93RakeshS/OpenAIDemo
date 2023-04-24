@@ -19,7 +19,15 @@ namespace ExactAzureAIGPT.Factory
             {                
                 case "text":
                     string logDirectory = _configuration.GetValue<string>("LogFilePath");
-                    return new FileLogger(logDirectory);
+                    if (Directory.Exists(logDirectory))
+                    {
+                        return new FileLogger(logDirectory);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(logDirectory);
+                        return new FileLogger(logDirectory);
+                    }
 
                 default:
                     throw new NotSupportedException($"Logging provider type {loggertype} is not supported.");

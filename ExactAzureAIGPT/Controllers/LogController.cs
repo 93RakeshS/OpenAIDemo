@@ -23,55 +23,27 @@ namespace ExactAzureAIGPT.Controllers
             {
                 string dateFormat = "yyyy-MM-dd";
                 string logDirectory = _configuration.GetValue<string>("LogFilePath");
-                if (Directory.Exists(logDirectory))
+
+                if (string.IsNullOrEmpty(date))
                 {
+                    date = $"{DateTime.Now:yyyy-MM-dd}";
+                }
 
-                    if (string.IsNullOrEmpty(date))
-                    {
-                        date = $"{DateTime.Now:yyyy-MM-dd}";
-                    }
+                bool isValidDate = IsValidDateFormat(date, dateFormat);
 
-                    bool isValidDate = IsValidDateFormat(date, dateFormat);
-
-                    if (isValidDate)
+                if (isValidDate)
+                {
+                    string logFilePath = Path.Combine(logDirectory, $"eolgpt_{date}.log");
+                    string fileContent;
+                    using (StreamReader reader = new StreamReader(logFilePath))
                     {
-                        string logFilePath = Path.Combine(logDirectory, $"{date}.log");
-                        string fileContent;
-                        using (StreamReader reader = new StreamReader(logFilePath))
-                        {
-                            fileContent = reader.ReadToEnd();
-                            return Content(fileContent, "text/plain");
-                        }
-                    }
-                    else
-                    {
-                        return Content("Please provide date in yyyy-MM-dd format");
+                        fileContent = reader.ReadToEnd();
+                        return Content(fileContent, "text/plain");
                     }
                 }
                 else
                 {
-                    Directory.CreateDirectory(logDirectory);
-                    if (string.IsNullOrEmpty(date))
-                    {
-                        date = $"{DateTime.Now:yyyy-MM-dd}";
-                    }
-
-                    bool isValidDate = IsValidDateFormat(date, dateFormat);
-
-                    if (isValidDate)
-                    {
-                        string logFilePath = Path.Combine(logDirectory, $"{date}.log");
-                        string fileContent;
-                        using (StreamReader reader = new StreamReader(logFilePath))
-                        {
-                            fileContent = reader.ReadToEnd();
-                            return Content(fileContent, "text/plain");
-                        }
-                    }
-                    else
-                    {
-                        return Content("Please provide date in yyyy-MM-dd format");
-                    }
+                    return Content("Please provide date in yyyy-MM-dd format");
                 }
 
             }
