@@ -209,7 +209,8 @@
     background-color: #fff;
 }
 .btn:first-child:active{
-    background-color: #fff;
+    background-color: transparent;
+    color: #212529;
 }
 
 .accordion-button.collapsed::after {
