@@ -14,7 +14,13 @@ namespace ExactAzureAIGPT.Services.Class
         {
             _configuration = configuration;
         }
-
+        /// <summary>
+        /// GetEOLGPTResponse
+        /// </summary>
+        /// <param name="conversations">contains shot messages and history of conversation between gpt and user</param>
+        /// <param name="userInput">question/request by user</param>
+        /// <param name="systemMessage">System Message to provide context to gpt</param>
+        /// <returns>Json Result that contains reponse to the specific user input</returns>
         public JsonResult GetEOLGPTResponse(List<ChatHistory> conversations, string userInput, string systemMessage)
         {
             OpenAIClient client = new OpenAIClient(

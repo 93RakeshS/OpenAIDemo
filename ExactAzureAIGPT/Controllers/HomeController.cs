@@ -1,7 +1,4 @@
-﻿using Azure;
-using Azure.AI.OpenAI;
-using ExactAzureAIGPT.Filter;
-using ExactAzureAIGPT.Helpers;
+﻿using ExactAzureAIGPT.Filter;
 using ExactAzureAIGPT.Models;
 using ExactAzureAIGPT.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +7,11 @@ namespace ExactAzureAIGPT.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IConfiguration _configuration;
+
         private readonly IHomeService _homeService;
         public HomeController(IHomeService homeService, IConfiguration configuration)
         {
             _homeService = homeService;
-            _configuration = configuration;
         }
 
         [HttpGet]
@@ -38,7 +34,7 @@ namespace ExactAzureAIGPT.Controllers
 
 
         [HttpPost]
-        public JsonResult GetResponse(List<ChatHistory> conversations, string userInput, string systemMessage = "")
+        public JsonResult GetEOLGPTResponse(List<ChatHistory> conversations, string userInput, string systemMessage = "")
         {
             try
             {
