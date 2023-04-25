@@ -67,7 +67,7 @@
     align-items: center;
     padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-    height: 10%;
+    height: 100px;
 }
 
 .chat-session {
@@ -104,8 +104,9 @@
     width: 100%;
     bottom: 0px;
     padding: 20px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-    height: 21%;
+    height: 184px;
+    box-shadow: 4px -1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
 .user-message-div {
@@ -128,7 +129,7 @@
     padding: 10px;
     margin: auto;
     overflow-y: auto;
-    height: 69%;
+    height: calc(100% - 284px);
     background-color: #aba4a412;
 }
 
@@ -151,6 +152,9 @@
     padding: 10px 20px;
     transition: all 0.5s ease-in-out;
     transform: translateX(0);
+    height: 100%;
+    overflow-y: auto;
+    min-height: 500px;
 }
 
 #leftPanel.transformed {
@@ -162,6 +166,10 @@
 #rightPanel {
     transition: all 0.5s ease-in-out;
     transform: translateX(0%);
+    height: 100%;
+    overflow-y: auto;
+    min-height: 500px;
+
 }
 
 #rightPanel.transformed {
@@ -170,7 +178,7 @@
 
 .shot-example {
     width: 100%;
-    padding-right: 5px;
+    padding-right: 10px;
 
 }
 
@@ -228,4 +236,19 @@
 .accordion-button:focus {
     background-color: none;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    margin-right: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 15px rgb(209 47 57 / 45%);
 }
