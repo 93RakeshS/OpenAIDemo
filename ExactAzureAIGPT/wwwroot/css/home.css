@@ -137,6 +137,7 @@
     float: right;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
     border-radius: 8px;
+    background-color:white;
 }
 
 .assistant-message {
@@ -144,7 +145,8 @@
     float: left;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
     border-radius: 8px;
-    background-color: rgb(252, 207, 207);
+    background-color: rgba(220, 53, 69);
+    color:white;
 }
 
 #leftPanel {

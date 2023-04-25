@@ -228,3 +228,5 @@ appsettings.*.json
 # exclude Alonn definitions
 !definitions/ALonn/**
 /.sonarqube
+/ExactAzureAIGPT/.vscode/launch.json
+/ExactAzureAIGPT/.vscode/tasks.json

@@ -3,6 +3,7 @@ using Azure.AI.OpenAI;
 using ExactAzureAIGPT.Filter;
 using ExactAzureAIGPT.Helpers;
 using ExactAzureAIGPT.Models;
+using ExactAzureAIGPT.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExactAzureAIGPT.Controllers
@@ -10,8 +11,10 @@ namespace ExactAzureAIGPT.Controllers
     public class HomeController : Controller
     {
         private readonly IConfiguration _configuration;
-        public HomeController(IConfiguration configuration)
+        private readonly IHomeService _homeService;
+        public HomeController(IHomeService homeService, IConfiguration configuration)
         {
+            _homeService = homeService;
             _configuration = configuration;
         }
 
@@ -39,42 +42,7 @@ namespace ExactAzureAIGPT.Controllers
         {
             try
             {
-                OpenAIClient client = new OpenAIClient(
-                new Uri(_configuration["AzureOpenAIurl"]),
-                new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
-
-                var input = new ChatCompletionsOptions()
-                {
-                    Temperature = (float)0.7,
-                    MaxTokens = 800,
-                    NucleusSamplingFactor = (float)0.95,
-                    FrequencyPenalty = 0,
-                    PresencePenalty = 0,
-                };
-
-                if (!string.IsNullOrEmpty(systemMessage))
-                    input.Messages.Add(new ChatMessage(ChatRole.System, systemMessage));
-
-                if (conversations.Any())
-                {
-                    foreach (var conversation in conversations)
-                    {
-                        input.Messages.Add(new ChatMessage(ChatRole.User, conversation.User));
-                        input.Messages.Add(new ChatMessage(ChatRole.Assistant, conversation.Assistant.SanitizeHtml()));
-                    }
-                }
-
-                input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
-
-                Response<ChatCompletions> response = client.GetChatCompletionsAsync(
-                    "EOLgpt35", input
-                    ).Result;
-
-                var responseMessage = response.Value.Choices.First().Message;
-
-                var content = responseMessage.Content.ReplaceNewLineWithHtmlBreak();
-
-                return Json(content);
+                return _homeService.GetEOLGPTResponse(conversations, userInput, systemMessage);
             }
             catch (Exception ex)
             {
