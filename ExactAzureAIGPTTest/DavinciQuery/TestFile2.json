@@ -1,0 +1,38 @@
+[
+  {
+    "UserRequest": "sales greater than 500?",
+    "UserResponse": "AmountDC > 500."
+  },
+  {
+    "UserRequest": "add currency us dollar to the end of the formula?",
+    "UserResponse": "AmountDC > 500 AND Currency = \"USD\"."
+  },
+  {
+    "UserRequest": "add parenthesis to the entire formula?",
+    "UserResponse": "(AmountDC > 500 AND Currency = \"USD\")."
+  },
+  {
+    "UserRequest": "multiply by 100 to the end of the formula?",
+    "UserResponse": "(AmountDC > 500 AND Currency = \"USD\") * 100."
+  },
+  {
+    "UserRequest": "add () to the entire formula?",
+    "UserResponse": "((AmountDC > 500 AND Currency = \"USD\") * 100)."
+  },
+  {
+    "UserRequest": "add purchase equal 900 to the end of the formula?",
+    "UserResponse": "((AmountDC > 500 AND Currency = \"USD\") * 100) AND AmountDC = 900."
+  },
+  {
+    "UserRequest": "add parenthesis to the entire formula?",
+    "UserResponse": "(((AmountDC > 500 AND Currency = \"USD\") * 100) AND AmountDC = 900)."
+  },
+  {
+    "UserRequest": "add date less than today's date to the end of the formula?",
+    "UserResponse": "(((AmountDC > 500 AND Currency = \"USD\") * 100) AND AmountDC = 900) AND EntryDate < Today()."
+  },
+  {
+    "UserRequest": "add () to the formula and add selection code is web to the end of the formula?",
+    "UserResponse": "((((AmountDC > 500 AND Currency = \"USD\") * 100) AND AmountDC = 900) AND EntryDate < Today()) AND SelectionCode = \"Web\"."
+  }
+]

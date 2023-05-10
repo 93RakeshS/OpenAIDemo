@@ -1,0 +1,30 @@
+[
+  {
+    "UserRequest": "Sales greater than 500",
+    "UserResponse": "AmountDC > 500."
+  },
+  {
+    "UserRequest": "Make it 200",
+    "UserResponse": "AmountDC > 200."
+  },
+  {
+    "UserRequest": "add currency USD to the formula",
+    "UserResponse": "Currency = \"USD\" AND AmountDC > 200."
+  },
+  {
+    "UserRequest": "replace USD with EUR in the formula",
+    "UserResponse": "Currency = \"EUR\" AND AmountDC > 200."
+  },
+  {
+    "UserRequest": "add purchase less than 900 to the formula",
+    "UserResponse": "Currency = \"EUR\" AND AmountDC > 200 AND AmountFC < 900."
+  },
+  {
+    "UserRequest": "make purchase greater than 900",
+    "UserResponse": "Currency = \"EUR\" AND AmountDC > 200 AND AmountFC > 900."
+  },
+  {
+    "UserRequest": "make sales less than 200",
+    "UserResponse": "Currency = \"EUR\" AND AmountDC < 200 AND AmountFC > 900."
+  }
+]
