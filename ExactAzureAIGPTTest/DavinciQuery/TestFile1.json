@@ -1,0 +1,26 @@
+[
+  {
+    "UserRequest": "sales greater than 700?",
+    "UserResponse": "AmountDC > 700."
+  },
+  {
+    "UserRequest": "add () to the formula",
+    "UserResponse": "(AmountDC > 700)."
+  },
+  {
+    "UserRequest": "multiply by 300 to the formula",
+    "UserResponse": "(AmountDC > 700) * 300."
+  },
+  {
+    "UserRequest": "add currency is US Dollar to the formula",
+    "UserResponse": "Currency = \"USD\" AND (AmountDC > 700) * 300."
+  },
+  {
+    "UserRequest": "add sales less than 700 to the formula",
+    "UserResponse": "Currency = \"USD\" AND (AmountDC > 700) * 300 AND AmountDC < 700."
+  },
+  {
+    "UserRequest": "add date is less than today's date to the formula",
+    "UserResponse": "Currency = \"USD\" AND (AmountDC > 700) * 300 AND AmountDC < 700 AND EntryDate < Today()."
+  }
+]

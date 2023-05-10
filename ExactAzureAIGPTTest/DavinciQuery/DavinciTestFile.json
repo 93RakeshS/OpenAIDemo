@@ -1,0 +1,22 @@
+[
+  {
+    "UserRequest": "amountdc greater than 500",
+    "UserResponse": "AmountDC > 500."
+  },
+  {
+    "UserRequest": "tell me a joke",
+    "UserResponse": "I'm sorry, I don't know any jokes."
+  },
+  {
+    "UserRequest": "add currency USD to the formula",
+    "UserResponse": "Currency = \"USD\" AND AmountDC > 500."
+  },
+  {
+    "UserRequest": "replace usd with EUR in the formula",
+    "UserResponse": "Currency = \"EUR\" AND AmountDC > 500."
+  },
+  {
+    "UserRequest": "add amountfc less than 900 to the formula",
+    "UserResponse": "Currency = \"EUR\" AND AmountDC > 500 AND AmountFC < 900."
+  }
+]
