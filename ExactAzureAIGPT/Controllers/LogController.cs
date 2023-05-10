@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ExactAzureAIGPT.Filter;
+using Microsoft.AspNetCore.Mvc;
 using Exact.Azure.AI.GPT.Constants;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -8,13 +9,16 @@ namespace Exact.Azure.AI.GPT.Controllers
     {
         public LogController(IConfiguration configuration, IMemoryCache cache):base(configuration,cache)
         {
+            _configuration = configuration;
         }
 
+        [AuthorizedFilter]
         [HttpGet]
         public IActionResult Index(string date = "")
         {
             try
             {
+                string dateFormat = "yyyy-MM-dd";
                 string logDirectory = _configuration.GetValue<string>("LogFilePath");
 
                 if (string.IsNullOrEmpty(date))
@@ -38,6 +42,7 @@ namespace Exact.Azure.AI.GPT.Controllers
                 {
                     return Content("Please provide date in yyyy-MM-dd format");
                 }
+
             }
             catch (FileNotFoundException)
             {
@@ -47,6 +52,7 @@ namespace Exact.Azure.AI.GPT.Controllers
             {
                 return Content("Please provide date in yyyy-MM-dd format");
             }
+
         }
 
         static bool IsValidDateFormat(string dateString, string dateFormat)

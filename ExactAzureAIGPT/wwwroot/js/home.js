@@ -72,7 +72,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "../Home/GetResponse/",
+            url: "../Home/GetEOLGPTResponse/",
             type: "POST",
             data: { conversations: conversations, userInput: userInput, systemMessage: message },
             dataType: "json",

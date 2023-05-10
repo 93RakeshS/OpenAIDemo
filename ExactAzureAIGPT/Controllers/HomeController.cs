@@ -2,7 +2,6 @@
 using ExactAzureAIGPT.Models;
 using ExactAzureAIGPT.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-
 namespace ExactAzureAIGPT.Controllers
 {
     public class HomeController : Controller
@@ -22,7 +21,6 @@ namespace ExactAzureAIGPT.Controllers
         [AuthorizedFilter]
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -42,7 +40,6 @@ namespace ExactAzureAIGPT.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 return Json(ex.ToString());
             }
         }

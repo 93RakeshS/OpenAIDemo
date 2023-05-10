@@ -4,15 +4,18 @@ using ExactAzureAIGPT.Helpers;
 using ExactAzureAIGPT.Models;
 using ExactAzureAIGPT.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using ILogger = ExactAzureAIGPT.Interface.ILogger;
 
 namespace ExactAzureAIGPT.Services.Class
 {
     public class HomeService : IHomeService
     {
         private readonly IConfiguration _configuration;
-        public HomeService(IConfiguration configuration)
+        private readonly ILogger _logger;
+        public HomeService(IConfiguration configuration, ILogger logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
         /// <summary>
         /// GetEOLGPTResponse
@@ -23,7 +26,9 @@ namespace ExactAzureAIGPT.Services.Class
         /// <returns>Json Result that contains reponse to the specific user input</returns>
         public JsonResult GetEOLGPTResponse(List<ChatHistory> conversations, string userInput, string systemMessage)
         {
-            OpenAIClient client = new OpenAIClient(
+            try
+            {
+                OpenAIClient client = new OpenAIClient(
                 new Uri(_configuration["AzureOpenAIurl"]),
                 new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
 
@@ -57,8 +62,17 @@ namespace ExactAzureAIGPT.Services.Class
                 var responseMessage = response.Value.Choices.First().Message;
 
                 var content = responseMessage.Content.ReplaceNewLineWithHtmlBreak();
+                _logger.LogInfo("System : " + systemMessage);
+                _logger.LogInfo("User : " + userInput);
+                _logger.LogInfo("Assistant : " + content);
 
                 return new JsonResult(content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return new JsonResult(ex.Message);
+            }
         }
     }
 }
