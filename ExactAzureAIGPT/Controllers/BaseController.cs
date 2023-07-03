@@ -36,12 +36,13 @@ namespace Exact.Azure.AI.GPT.Controllers
 
 		public string LoggedInUser()
 		{
-			switch (Environment.MachineName)
+			IConfigurationSection machineUserMappingSection = _configuration.GetSection("MachineUserMapping");
+			var machineUserMapping = machineUserMappingSection.Get<Dictionary<string, string>>();
+
+			string machineName = Environment.MachineName;
+			if (machineUserMapping.ContainsKey(machineName))
 			{
-				case "DEV-LPT241":
-					return "demouser";
-				case "DEV-LPT0135":
-					return "demouser";
+				return machineUserMapping[machineName];
 			}
 
 			var key = Request.Cookies["AppServiceAuthSession"];

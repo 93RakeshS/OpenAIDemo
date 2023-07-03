@@ -1,4 +1,4 @@
-namespace ExactAzureAIGPT.Models
+namespace Exact.Azure.AI.GPT.Models
 {
     public class ErrorViewModel
     {

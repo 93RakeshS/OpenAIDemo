@@ -34,7 +34,24 @@ $(document).ready(function () {
         $("#leftPanel").toggleClass("transformed");
         $("#rightPanel").toggleClass("transformed");
     });
-   
+
+    $('.input-text').keypress(function (e) {
+        if (isNaN(this.value + "" + String.fromCharCode(e.charCode))) return false;
+    }).on("cut copy paste", function (e) {
+        e.preventDefault();
+    });
+
+    $("#modelDropdowm").change(function (e) {
+        if ($("#modelDropdowm").val() == "text-davinci-003") {
+            $("#temperatureText").val(1);
+            $("#topPText").val(0.5);
+        }
+        else {
+            $("#temperatureText").val(0.7);
+            $("#topPText").val(0.7);
+        }
+    });
+
     userInput = $("#promptValue").val();
     const textArea = document.getElementById("promptValue");
     const myButton = document.getElementById("generateResponse");
@@ -56,34 +73,16 @@ $(document).ready(function () {
         });
     });
 
-    $("#generateResponse").click(function () {
-        userInput = $("#promptValue").val();
-        myButton.disabled = true;
-        setTimeout(() => {
-            $("#spinner").show();
-        }, 100)
-
-        conversations = shotExamples.concat(historyMessages);
-
-        var message = $("#sytemMessage").val() ;
-
-        if ($("#txtfieldInfo").val()) {
-            message = message + + "\n Here are the mappings:" + $("#txtfieldInfo").val();
+    $('#promptValue').on('keydown', (event) => {
+        if (event.keyCode === 13) {
+            event.preventDefault(); // prevent default behavior (e.g. inserting a new line)
+            generateAIResponse();
         }
+    });
 
-        $.ajax({
-            url: "../Home/GetEOLGPTResponse/",
-            type: "POST",
-            data: { conversations: conversations, userInput: userInput, systemMessage: message },
-            dataType: "json",
-            success: function (data) {
-                onSuccess(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
+    $("#generateResponse").click(function () {
 
+        generateAIResponse();
     })
 
     $("#clearResponse").click(function () {
@@ -93,6 +92,47 @@ $(document).ready(function () {
         readShotMessagesWithHistory();
     })
 });
+
+function generateAIResponse() {
+    userInput = $("#promptValue").val();
+    $('#generateResponse').prop('disabled', true);
+    setTimeout(() => {
+        $("#spinner").show();
+    }, 100)
+
+    conversations = shotExamples.concat(historyMessages);
+
+    var message = $("#sytemMessage").val();
+
+    if ($("#txtfieldInfo").val()) {
+        message = message + "\n" + $("#txtfieldInfo").val();
+    }
+
+    var gptconversation = {
+        UserInput: userInput,
+        SystemMessage: message,
+        ChatHistories: conversations
+    }
+
+    var aiRequestParameters = {
+        ModelName: $("#modelDropdowm").val(),//EOLgpt35,text-davinci-003
+        Temperature: $("#temperatureText").val(),
+        TopP: $("#topPText").val()
+    }
+
+    $.ajax({
+        url: "../Home/GetResponseFromAI/",
+        type: "POST",
+        data: { conversations: gptconversation, aiRequestParameters: aiRequestParameters },
+        dataType: "json",
+        success: function (data) {
+            onSuccess(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+}
 
 function onSuccess(data) {
     $("#responseDiv").append('<div class="user-message-div"><div class="user-message d-flex flex-row-reverse p-2 bd-highlight shadow-sm mt-3">' + userInput + '</div></div>');
@@ -112,23 +152,19 @@ function onSuccess(data) {
 function generateShotExample() {
     // create the main container
     const mainContainer = document.createElement("div");
-    mainContainer.classList.add("mb-3", "shot-example");
+    mainContainer.classList.add("shot-example");
 
     // create the user input field
-    const userContainer = `
-                                            <div class="form-group">
-                                              <label for="shotMessageUser" class="label">User</label>
-                                              <textarea class="shotMessageUser form-control user-input" rows="2" cols="65"></textarea>
-                                            </div>
-                                          `;
+    const userContainer = `<div class="field-control">
+        <label for="shotMessageUser">User</label>
+        <textarea class="shotMessageUser field user-input" rows="2" cols="65"></textarea>
+    </div>`;
 
     // create the assistant input field
-    const assistantContainer = `
-                                            <div class="form-group">
-                                              <label for="shotMessageAssistant" class="label">Assistant</label>
-                                              <textarea class="shotMessageAssistant form-control assistant-input" rows="2" cols="65"></textarea>
-                                            </div>
-                                          `;
+    const assistantContainer = `<div class="field-control">
+        <label for="shotMessageAssistant" class="label">Assistant</label>
+        <textarea class="shotMessageAssistant field assistant-input" rows="2" cols="65"></textarea>
+    </div>`;
 
     // append the heading and input fields to the main container
     mainContainer.innerHTML = userContainer + assistantContainer;

@@ -38,7 +38,8 @@ namespace ExactAzureAIGPTTest
                 ModelName = "EOLgpt35",
                 Temperature = (float)0.0,
                 TopP = (float)0.5,
-            };
+				UserName = "demoUser"
+		};
             foreach (string file in files)
             {
                 inputPath = Path.Combine(inputPath, file);

@@ -58,12 +58,12 @@ namespace Exact.Azure.AI.GPT.Services.Class
                     );
 
                 var responseMessage = response.Value.Choices.First().Message;
-
-                var content = responseMessage.Content.ReplaceNewLineWithHtmlBreak();
+				
+				var content = responseMessage.Content.ReplaceNewLineWithHtmlBreak();
                 _logger.LogInfo("-------------------GPT35-------------------");
                 _logger.LogInfo("System : " + conversations.SystemMessage);
-                _logger.LogInfo("User : " + conversations.UserInput);
-                _logger.LogInfo("Assistant : " + content);
+				_logger.LogInfo($"{aiRequestParameters.UserName} : {conversations.UserInput}");
+				_logger.LogInfo("Assistant : " + content);
 
                 return content;
             }

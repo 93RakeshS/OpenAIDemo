@@ -1,6 +1,3 @@
-html {
-    font-size: 14px;
-}
 
 @media (min-width: 768px) {
     html {
@@ -14,6 +11,25 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: #ECECEC;
 }
 
+@font-face {
+    font-family: 'Apax-Medium';
+    src: url('../fonts/Apax-Medium.eot') format('opentype');
+    src: url('../fonts/Apax-Medium.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Apax-Medium.woff') format('woff'),
+         url('../fonts/Apax-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Apax-Regular';
+    src: url('../fonts/Apax-Regular.eot') format('opentype');
+    src: url('../fonts/Apax-Regular.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Apax-Regular.woff') format('woff'),
+         url('../fonts/Apax-Regular.ttf') format('truetype');
+}

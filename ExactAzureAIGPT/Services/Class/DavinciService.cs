@@ -30,30 +30,30 @@ namespace Exact.Azure.AI.GPT.Services.Class
             prompt = prompt + "\nQ:" + conversations.UserInput;
 
             OpenAIClient client = new OpenAIClient(new Uri(_configuration["AzureOpenAIurl"]),
-                                  new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
-
-            var input = new CompletionsOptions()
-            {
+				new AzureKeyCredential(_configuration["AzureOpenAIKey"]));
+				
+				var input = new CompletionsOptions()
+				{
                 Prompts = { prompt },
-                Temperature = aiRequestParameters.Temperature,
-                MaxTokens = 100,
-                NucleusSamplingFactor = aiRequestParameters.TopP,
-                FrequencyPenalty = (float)0,
-                PresencePenalty = (float)0,
+					Temperature = aiRequestParameters.Temperature,
+					MaxTokens = 100,
+					NucleusSamplingFactor = aiRequestParameters.TopP,
+					FrequencyPenalty = (float)0,
+					PresencePenalty = (float)0,
                 GenerationSampleCount = 1,
-            };
+				};
 
-            Response<Completions> completionsResponse = await client.GetCompletionsAsync(
-                                aiRequestParameters.ModelName, input
-                                );
+				Response<Completions> completionsResponse = await client.GetCompletionsAsync(
+									aiRequestParameters.ModelName, input
+									);
 
             Completions completions = completionsResponse.Value;
             var response = completionsResponse.Value.Choices[0].Text;
-            _logger.LogInfo("-------------------Davinci-------------------");
-            _logger.LogInfo("System : " + conversations.SystemMessage);
-            _logger.LogInfo("User : " + conversations.UserInput);
-            _logger.LogInfo("Assistant : " + response);
-            return response.Replace("A:", "");
-        }
+				_logger.LogInfo("-------------------Davinci-------------------");
+				_logger.LogInfo("System : " + conversations.SystemMessage);
+				_logger.LogInfo($"{aiRequestParameters.UserName} : {conversations.UserInput}");
+				_logger.LogInfo("Assistant : " + response);
+				return response.Replace("A:", "");
+			}
     }
 }

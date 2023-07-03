@@ -1,12 +1,12 @@
 using Azure;
 using Azure.AI.OpenAI;
-using ExactAzureAIGPT.Helpers;
-using ExactAzureAIGPT.Models;
-using ExactAzureAIGPT.Services.Interface;
+using Exact.Azure.AI.GPT.Helpers;
+using Exact.Azure.AI.GPT.Models;
+using Exact.Azure.AI.GPT.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using ILogger = ExactAzureAIGPT.Interface.ILogger;
+using ILogger = Exact.Azure.AI.GPT.Interface.ILogger;
 
-namespace ExactAzureAIGPT.Services.Class
+namespace Exact.Azure.AI.GPT.Services.Class
 {
     public class HomeService : IHomeService
     {

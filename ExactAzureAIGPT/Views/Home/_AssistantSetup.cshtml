@@ -1,39 +1,43 @@
 ﻿
 @{
-    <div class="system-header">
-        <span>Temperature</span>
-        <input type="text" placeholder="Temperature" class="input-text form-control ms-2 mb-2 me-5" value="0.7" pattern="[0-9]*" inputmode="numeric" id="temperatureText">
-        <span>Top-P</span>
-        <input type="text" placeholder="Top P" class="input-text form-control ms-2 mb-2 me-5" value="0.7" pattern="[0-9]*" inputmode="numeric" id="topPText">
-    </div>
-    <div class="heading">
-        <span class="sys-msg">
-            System Message
-        </span>
+    <div class="assistant-setup">
+        <div class="system-header">
+            <div class="field-control">
+                <label for="temperatureText">Temperature</label>
+                <input type="text" placeholder="Temperature" class="field" value="0.7" pattern="[0-9]*" inputmode="numeric" id="temperatureText" />
+            </div>
+           <div class="field-control">
+                <label for="topPText">Top-P</label>
+                <input type="text" placeholder="Top P" class="field" value="0.7" pattern="[0-9]*" inputmode="numeric" id="topPText" />
+            </div>
+        </div>
+        <div class="heading">
+            <div class="field-control">
+                <label class="sys-msg" for="sytemMessage">System Message</label>
+                <textarea class="form-control text-area" id="sytemMessage" rows="7" cols="80"></textarea>
+            </div>
+        </div>
 
-        <textarea class="form-control text-area" id="sytemMessage" rows="7" cols="80"></textarea>
-    </div>
-
-
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button btn btn-outline-danger" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Field Information
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                 data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <textarea class="form-control field-info-textarea" id="txtfieldInfo" rows="2"
-                              cols="80"></textarea>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button btn btn-outline-danger" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Field Information
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <textarea class="form-control text-area" id="txtfieldInfo" rows="2" cols="80"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <button type="button" class="btn btn-outline-danger mt-3" id="addShotMessage">Add Shot Examples</button>
-    <div class="shotMessageContainer">
+        <div class="button-bar">
+            <button type="button" class="primary" id="addShotMessage">Add Shot Examples</button>
+        </div>
+        <div class="shotMessageContainer"></div>
     </div>
 
 }

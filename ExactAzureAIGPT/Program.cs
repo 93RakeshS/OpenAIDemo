@@ -1,4 +1,4 @@
-using ExactAzureAIGPT.Extensions;
+using Exact.Azure.AI.GPT.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
