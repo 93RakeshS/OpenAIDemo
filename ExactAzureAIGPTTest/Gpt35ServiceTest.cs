@@ -1,11 +1,11 @@
-﻿using Exact.Azure.AI.GPT.Models;
-using Exact.Azure.AI.GPT.Services.Class;
-using Exact.Azure.AI.GPT.Tests;
+﻿using Devon.Azure.AI.GPT.Models;
+using Devon.Azure.AI.GPT.Services.Class;
+using Devon.Azure.AI.GPT.Tests;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using ILogger = Exact.Azure.AI.GPT.Interface.ILogger;
+using ILogger = Devon.Azure.AI.GPT.Interface.ILogger;
 
-namespace Exact.Azure.AI.GPTTest
+namespace Employee.GPTTest
 {
     public class Gpt35ServiceTest
     {

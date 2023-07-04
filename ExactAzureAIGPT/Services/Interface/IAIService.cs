@@ -1,5 +1,5 @@
-using Exact.Azure.AI.GPT.Models;
-namespace Exact.Azure.AI.GPT.Services.Interface
+using Devon.Azure.AI.GPT.Models;
+namespace Devon.Azure.AI.GPT.Services.Interface
 {
     public interface IAIService
     {

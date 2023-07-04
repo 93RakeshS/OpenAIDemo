@@ -1,7 +1,7 @@
-﻿using Exact.Azure.AI.GPT.Services.Class;
-using Exact.Azure.AI.GPT.Services.Interface;
+﻿using Devon.Azure.AI.GPT.Services.Class;
+using Devon.Azure.AI.GPT.Services.Interface;
 
-namespace Exact.Azure.AI.GPT.Factory
+namespace Devon.Azure.AI.GPT.Factory
 {
     public class ServiceFactory
     {

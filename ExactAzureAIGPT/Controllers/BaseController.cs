@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 
-namespace Exact.Azure.AI.GPT.Controllers
+namespace Devon.Azure.AI.GPT.Controllers
 {
     public class BaseController : Controller
     {

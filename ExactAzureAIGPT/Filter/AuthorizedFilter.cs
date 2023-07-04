@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exact.Azure.AI.GPT.Filter
+namespace Devon.Azure.AI.GPT.Filter
 {
     public class AuthorizedFilter : ActionFilterAttribute
     {

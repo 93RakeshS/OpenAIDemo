@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Exact.Azure.AI.GPT.Tests
+namespace Devon.Azure.AI.GPT.Tests
 {
     static class Utility
     {

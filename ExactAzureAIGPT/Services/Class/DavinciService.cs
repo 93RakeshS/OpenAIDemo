@@ -1,11 +1,11 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
-using Exact.Azure.AI.GPT.Helpers;
-using Exact.Azure.AI.GPT.Models;
-using Exact.Azure.AI.GPT.Services.Interface;
-using ILogger = Exact.Azure.AI.GPT.Interface.ILogger;
+using Devon.Azure.AI.GPT.Helpers;
+using Devon.Azure.AI.GPT.Models;
+using Devon.Azure.AI.GPT.Services.Interface;
+using ILogger = Devon.Azure.AI.GPT.Interface.ILogger;
 
-namespace Exact.Azure.AI.GPT.Services.Class
+namespace Devon.Azure.AI.GPT.Services.Class
 {
     public class DavinciService : IAIService
     {

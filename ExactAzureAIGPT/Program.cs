@@ -1,4 +1,4 @@
-using Exact.Azure.AI.GPT.Extensions;
+using Devon.Azure.AI.GPT.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

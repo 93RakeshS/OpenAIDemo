@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web;
 
-namespace Exact.Azure.AI.GPT.Helpers
+namespace Devon.Azure.AI.GPT.Helpers
 {
     public static class HtmlHelper
     {

@@ -1,10 +1,10 @@
-using Exact.Azure.AI.GPT.Models;
-using Exact.Azure.AI.GPT.Services.Class;
+using Devon.Azure.AI.GPT.Models;
+using Devon.Azure.AI.GPT.Services.Class;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using ILogger = Exact.Azure.AI.GPT.Interface.ILogger;
+using ILogger = Devon.Azure.AI.GPT.Interface.ILogger;
 
-namespace Exact.Azure.AI.GPT.Tests
+namespace Devon.Azure.AI.GPT.Tests
 {
 	public class DavinciServiceTest
 	{

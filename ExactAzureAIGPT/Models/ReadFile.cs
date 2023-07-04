@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Exact.Azure.AI.GPT.Models
+namespace Devon.Azure.AI.GPT.Models
 {
     public class ReadFile
     {
@@ -12,7 +12,7 @@ namespace Exact.Azure.AI.GPT.Models
         public void WriteContentsToFile(string content) 
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var newPath = baseDirectory.Replace(Path.GetRelativePath("Exact.Azure.AI.GPT", baseDirectory).Split("..")[1], "");
+            var newPath = baseDirectory.Replace(Path.GetRelativePath("Devon.Azure.AI.GPT", baseDirectory).Split("..")[1], "");
             string chatHistoryFolder = Path.Combine(newPath, "chatHistory");
             if (!Directory.Exists(chatHistoryFolder))
             {

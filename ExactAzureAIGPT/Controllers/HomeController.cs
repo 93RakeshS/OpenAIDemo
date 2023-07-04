@@ -1,11 +1,9 @@
-﻿using Exact.Azure.AI.GPT.Factory;
-using Exact.Azure.AI.GPT.Models;
+﻿using Devon.Azure.AI.GPT.Factory;
+using Devon.Azure.AI.GPT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
-
-
-namespace Exact.Azure.AI.GPT.Controllers
+namespace Devon.Azure.AI.GPT.Controllers
 {
     public class HomeController : BaseController
     {

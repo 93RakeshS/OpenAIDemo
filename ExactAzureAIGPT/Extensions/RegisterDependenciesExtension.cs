@@ -1,10 +1,10 @@
-using Exact.Azure.AI.GPT.Services.Class;
-using Exact.Azure.AI.GPT.Services.Interface;
-using LoggerFactory = Exact.Azure.AI.GPT.Factory.LoggerFactory;
-using ILoggerFactory = Exact.Azure.AI.GPT.Interface.ILoggerFactory;
-using Exact.Azure.AI.GPT.Factory;
+using Devon.Azure.AI.GPT.Services.Class;
+using Devon.Azure.AI.GPT.Services.Interface;
+using LoggerFactory = Devon.Azure.AI.GPT.Factory.LoggerFactory;
+using ILoggerFactory = Devon.Azure.AI.GPT.Interface.ILoggerFactory;
+using Devon.Azure.AI.GPT.Factory;
 
-namespace Exact.Azure.AI.GPT.Extensions
+namespace Devon.Azure.AI.GPT.Extensions
 { 
     public static class RegisterDependenciesExtension
     {

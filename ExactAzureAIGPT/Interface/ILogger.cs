@@ -1,4 +1,4 @@
-﻿namespace Exact.Azure.AI.GPT.Interface
+﻿namespace Devon.Azure.AI.GPT.Interface
 {
     public interface ILogger
     {

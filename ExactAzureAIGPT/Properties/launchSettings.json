@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Exact.Azure.AI.GPT": {
+    "Devon.Azure.AI.GPT": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

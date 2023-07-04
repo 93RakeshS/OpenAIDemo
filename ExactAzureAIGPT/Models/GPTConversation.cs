@@ -1,4 +1,4 @@
-namespace Exact.Azure.AI.GPT.Models
+namespace Devon.Azure.AI.GPT.Models
 {
     public class GPTConversation
     {

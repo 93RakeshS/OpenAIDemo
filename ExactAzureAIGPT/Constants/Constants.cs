@@ -1,4 +1,4 @@
-﻿namespace Exact.Azure.AI.GPT.Constants
+﻿namespace Devon.Azure.AI.GPT.Constants
 {
     public static class Constant
     {

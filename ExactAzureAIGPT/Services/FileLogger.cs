@@ -1,7 +1,7 @@
 ﻿
-namespace Exact.Azure.AI.GPT.Services
+namespace Devon.Azure.AI.GPT.Services
 {
-    using ILoggerAlias = Exact.Azure.AI.GPT.Interface.ILogger;
+    using ILoggerAlias = Devon.Azure.AI.GPT.Interface.ILogger;
     public class FileLogger : ILoggerAlias
     {
         private string _logDirectory;

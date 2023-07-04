@@ -1,7 +1,7 @@
-﻿using Exact.Azure.AI.GPT.Services;
-using ILogger = Exact.Azure.AI.GPT.Interface.ILogger;
-using ILoggerFactory = Exact.Azure.AI.GPT.Interface.ILoggerFactory;
-namespace Exact.Azure.AI.GPT.Factory
+﻿using Devon.Azure.AI.GPT.Services;
+using ILogger = Devon.Azure.AI.GPT.Interface.ILogger;
+using ILoggerFactory = Devon.Azure.AI.GPT.Interface.ILoggerFactory;
+namespace Devon.Azure.AI.GPT.Factory
 {
     
     public class LoggerFactory : ILoggerFactory

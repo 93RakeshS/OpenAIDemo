@@ -1,9 +1,9 @@
-﻿using Exact.Azure.AI.GPT.Filter;
+﻿using Devon.Azure.AI.GPT.Filter;
 using Microsoft.AspNetCore.Mvc;
-using Exact.Azure.AI.GPT.Constants;
+using Devon.Azure.AI.GPT.Constants;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Exact.Azure.AI.GPT.Controllers
+namespace Devon.Azure.AI.GPT.Controllers
 {
     public class LogController : BaseController
     {
