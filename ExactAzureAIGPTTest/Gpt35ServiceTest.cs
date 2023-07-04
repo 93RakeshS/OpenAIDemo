@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using ILogger = Exact.Azure.AI.GPT.Interface.ILogger;
 
-namespace ExactAzureAIGPTTest
+namespace Exact.Azure.AI.GPTTest
 {
     public class Gpt35ServiceTest
     {

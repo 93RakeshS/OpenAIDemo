@@ -1,11 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-	ViewData["Username"] = ViewBag.LoggedInUser;
+    ViewData["Username"] = ViewBag.LoggedInUser;
 }
 
 <div class="block-container container-fluid">
 
-    <div class="block col-md-5 shadow transformed" id="leftPanel">
+    <div class="block col-md-6 shadow transformed" id="leftPanel">
         @{
             if (ViewBag.IsUserAllowed == true)
                 Html.RenderPartial("_AssistantSetup");
@@ -13,19 +13,19 @@
 
     </div>
 
-    <div class="block col-md-7 shadow transformed" id="rightPanel">
+    <div class="block col-md-6 shadow transformed" id="rightPanel">
         <div class="chat-header">
             <div class="chat-session">
                 Chat Session
             </div>
-                <button type="button" id="clearResponse" class="secondary" value="Clear">Clear chat</button>
+            <button type="button" id="clearResponse" class="btn devOn-border-btn" value="Clear">Clear chat</button>
         </div>
         <div class="message-container" id="responseDiv"></div>
-        <div  class="chat-footer">
+        <div class="chat-footer">
             <textarea placeholder="User message" class="form-control" id="promptValue" rows="3" cols="65"></textarea>
-            <button id="generateResponse" type="button" class="primary">
+            <button id="generateResponse" type="button" class="btn devOn-border-btn">
                 <span class="spinner-border spinner-border-sm" style="display: none;" id="spinner" role="status"
-                    aria-hidden="true"></span>
+                      aria-hidden="true"></span>
                 Generate
             </button>
         </div>

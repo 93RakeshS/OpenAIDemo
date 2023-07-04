@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "ExactAzureAIGPT": {
+    "Exact.Azure.AI.GPT": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

@@ -13,7 +13,6 @@ namespace Exact.Azure.AI.GPT.Extensions
             builder.Services.AddSingleton<ILoggerFactory, LoggerFactory>();
             builder.Services.AddSingleton(provider => provider.GetRequiredService<ILoggerFactory>()
              .CreateLogger(builder.Configuration.GetValue<string>("LoggerType")));
-           
 
             builder.Services.AddScoped<ServiceFactory>();
             builder.Services.AddScoped<Gpt35Service>();

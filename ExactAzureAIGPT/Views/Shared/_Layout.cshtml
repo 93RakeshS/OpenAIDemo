@@ -3,28 +3,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EOL GPT</title>
+    <title>@ViewData["Title"] - DEVON GPT</title>
     <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-            <div class="header-inner">
-                <div class="left-content">
-                    <a class="logo" asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="https://files.exact.com/static/rainbow/v0/img/exact-logo.svg" width="57" height="12" alt="">
-                    </a>
-                    <div class="welcome">Welcome @(ViewData["Username"])</div>
-                </div>
-                <a href="/.auth/logout" class="logout">Logout</a>
+        <div class="header-inner">
+            <div class="left-content">
+                <a class="logo" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/devon-waada-cap-logo.png" alt="DevOn Logo" class="img-fluid" />
+                </a>
             </div>
-            <div class="header-secondary">
-                @{
-                    if (ViewBag.IsUserAllowed == true)
-                        Html.RenderPartial("_AssistantButtons");
-                }
-            </div>
+            <div class="welcome">Welcome @(ViewData["Username"])</div>
+            <a href="/.auth/logout" class="logout">Logout</a>
+        </div>
+        <div class="header-secondary">
+            @{
+                if (ViewBag.IsUserAllowed == true)
+                    Html.RenderPartial("_AssistantButtons");
+            }
+        </div>
     </header>
     <div class="main-container">
         <main role="main" class="pb-3">
