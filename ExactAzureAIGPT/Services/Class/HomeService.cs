@@ -18,13 +18,13 @@ namespace Devon.Azure.AI.GPT.Services.Class
             _logger = logger;
         }
         /// <summary>
-        /// GetEOLGPTResponse
+        /// GetDevonGPTResponse
         /// </summary>
         /// <param name="conversations">contains shot messages and history of conversation between gpt and user</param>
         /// <param name="userInput">question/request by user</param>
         /// <param name="systemMessage">System Message to provide context to gpt</param>
         /// <returns>Json Result that contains reponse to the specific user input</returns>
-        public JsonResult GetEOLGPTResponse(List<ChatHistory> conversations, string userInput, string systemMessage)
+        public JsonResult GetDevonGPTResponse(List<ChatHistory> conversations, string userInput, string systemMessage)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Devon.Azure.AI.GPT.Services.Class
                 input.Messages.Add(new ChatMessage(ChatRole.User, userInput));
 
                 Response<ChatCompletions> response = client.GetChatCompletionsAsync(
-                    "EOLgpt35", input
+                    "DevOnGPT", input
                     ).Result;
 
                 var responseMessage = response.Value.Choices.First().Message;

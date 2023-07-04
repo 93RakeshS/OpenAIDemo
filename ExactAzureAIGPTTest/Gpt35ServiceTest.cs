@@ -27,7 +27,7 @@ namespace Employee.GPTTest
             _service = new Gpt35Service(configuration, _logger.Object);
         }
         [Fact]
-        public async void GetEOLGPTResponse_ReturnsExpectedResults()
+        public async void GetDevOnGPTResponse_ReturnsExpectedResults()
         {
             List<ChatHistory> chatHistories = new List<ChatHistory>();
             string inputPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "Gpt35Query");
@@ -35,7 +35,7 @@ namespace Employee.GPTTest
             string[] files = Directory.GetFiles(inputPath);
             var aiRequestParameters = new AIRequestParameters
             {
-                ModelName = "EOLgpt35",
+                ModelName = "DevOnGPT",
                 Temperature = (float)0.0,
                 TopP = (float)0.5,
 				UserName = "demoUser"
