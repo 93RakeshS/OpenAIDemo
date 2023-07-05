@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33603.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Devon.Azure.AI.GPT", "Devon.Azure.AI.GPT.csproj", "{DABDA4D1-46FF-4868-91DB-BA39D09EF839}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Devon.Azure.AI.GPT.Tests", "..\ExactAzureAIGPTTest\Devon.Azure.AI.GPT.Tests.csproj", "{A8738ED6-F92C-44F1-95F9-3E0F5DDE67E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Devon.Azure.AI.GPT.Tests", "..\DevonAzureAIGPTTest\Devon.Azure.AI.GPT.Tests.csproj", "{A8738ED6-F92C-44F1-95F9-3E0F5DDE67E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

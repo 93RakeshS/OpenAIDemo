@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExactAzureAIGPT\Devon.Azure.AI.GPT.csproj" />
+    <ProjectReference Include="..\DevonAzureAIGPT\Devon.Azure.AI.GPT.csproj" />
   </ItemGroup>
 
 </Project>
