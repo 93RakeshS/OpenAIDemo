@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using ILogger = Devon.Azure.AI.GPT.Interface.ILogger;
 
-namespace Employee.GPTTest
+namespace Devon.Azure.AI.GPTTest
 {
     public class Gpt35ServiceTest
     {
